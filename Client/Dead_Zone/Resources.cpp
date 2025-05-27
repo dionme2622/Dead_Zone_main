@@ -493,16 +493,48 @@ shared_ptr<class AnimatorController> Resources::LoadAnimatorZombieController()
 	// 1) Controller 생성
 	auto controller = make_shared<AnimatorController>();
 
+	// 2) 파라미터 정의: isWalkingParam (bool)
+	AnimatorParameter isWalkingParam{ "isWalking" , ParameterType::Bool, 1.0 };
+	controller->AddParameter(isWalkingParam);
+
 	// 3) 스테이트 생성 (이름, 클립, 클립 인덱스, 속도, loop)
-	auto idle = make_shared<AnimationState>(L"Zombie_Idle", GetAnimClip(L"Zombie_Idle"), 0, 1.0f, true);
-	auto walk = make_shared<AnimationState>(L"Zombie_Walk", GetAnimClip(L"Zombie_Walk"), 1, 1.0f, true);
+	auto Idle = make_shared<AnimationState>(L"Zombie_Idle", GetAnimClip(L"Zombie_Idle"), 0, 1.0f, true);
+	auto Walk = make_shared<AnimationState>(L"Zombie_Walk", GetAnimClip(L"Zombie_Walk"), 1, 1.0f, true);
 
+	controller->AddState(Idle);
+	controller->AddState(Walk);
+	int isWalkingIdx = controller->GetParamIndex("isWalking");
+	// 4) Idle → Walk 전이 추가 (Speed > 0.1)
+	{
+		auto t = make_shared<Transition>(Walk);
+		t->AddCondition(
+			/*paramIndex=*/isWalkingIdx,
+			ParameterType::Bool,
+			/*mode=*/       ConditionMode::Equals,
+			/*threshold=*/  1.0f,       // Bool:false → 0.0
+			/*exitTime=*/   0.0f,
+			/*duration=*/   0.1f
+		);
+		Idle->AddTransition(t);
+	}
 
-	controller->AddState(idle);
-	controller->AddState(walk);
+	// 5) Walk → Idle 전이 추가 (Speed < 0.05)
+	{
+		auto t = make_shared<Transition>(Idle);
+		t->AddCondition(
+			/*paramIndex=*/isWalkingIdx,
+			ParameterType::Bool,
+			/*mode=*/       ConditionMode::Equals,
+			/*threshold=*/  0.0f,       // Bool:false → 0.0
+			/*exitTime=*/   0.0f,
+			/*duration=*/   0.1f
+		);
+		Walk->AddTransition(t);
+	}
+
 
 	// 6) Entry State 설정
-	controller->SetEntryState(L"Zombie_Walk");
+	controller->SetEntryState(L"Zombie_Idle");
 	return controller;
 }
 

@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "PlayerScript.h"
+#include "ZombieScript.h"
 #include "CameraScript.h"
 #include "Engine.h"
 #include "Resources.h"
@@ -272,6 +273,8 @@ void BattleScene::LoadScene()
 			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
 			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
 			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+
 			_zombies.push_back(gameObjects);
 		}
 	}
@@ -464,10 +467,9 @@ void BattleScene::Update()
 	/*Vec3 pos = _player[1]->GetTransform()->GetLocalPosition();
 	printf("%f %f %f\n", pos.x, pos.y, pos.z);*/
 
-	printf("Update 진행중\n");
 
 	Scene::Update();
-	UpdateZombieMove();
+	//UpdateZombieMove();
 	GET_SINGLE(PhysicsSystem)->Update(DELTA_TIME);
 	//UpdateSunOrbit();
 
@@ -534,55 +536,54 @@ void BattleScene::UpdateSunOrbit()
 
 void BattleScene::UpdateZombieMove()
 {
-	// 좀비 이동 처리
-	for (auto& zombie : _zombies)
-	{
-		// 좀비의 현재 위치
-		Vec3 zombiePosition = zombie[23]->GetTransform()->GetLocalPosition();
+	//const float detectionRange = 20.0f;
+	//const float detectionRangeSq = detectionRange * detectionRange;
 
+	//for (auto& zombieObjs : _zombies)
+	//{
+	//	auto  trans = zombieObjs[23]->GetTransform();
+	//	Vec3  zPos = trans->GetLocalPosition();
 
-		// 가장 가까운 플레이어 찾기
-		Vec3 closestPlayerPosition;
-		float minDistanceSquared = FLT_MAX;
-		for (const auto& player : _player)
-		{
-			Vec3 playerPosition = player->GetTransform()->GetLocalPosition();
-			Vec3 distanceVector = playerPosition - zombiePosition;
-			float distanceSquared = distanceVector.LengthSquared();
+	//	// --- 1) 가장 가까운 플레이어까지의 거리 제곱 찾기
+	//	float minDistSq = FLT_MAX;
+	//	Vec3  closestPos{};
+	//	for (auto& player : _player)
+	//	{
+	//		Vec3 delta = player->GetTransform()->GetLocalPosition() - zPos;
+	//		float d2 = delta.LengthSquared();
+	//		if (d2 < minDistSq)
+	//		{
+	//			minDistSq = d2;
+	//			closestPos = player->GetTransform()->GetLocalPosition();
+	//		}
+	//	}
 
-			if (distanceSquared < minDistanceSquared)
-			{
-				minDistanceSquared = distanceSquared;
-				closestPlayerPosition = playerPosition;
-			}
-		}
+	//	// --- 2) 범위 밖이면 '가만히' 놔둔다
+	//	if (minDistSq > detectionRangeSq)
+	//	{
+	//		// 예: Idle 애니메이션 재생
+	//		zombieObjs[23]->GetAnimator()->SetBool("IsWalking", false);
+	//		continue;
+	//	}
+	//	else {
+	//		// --- 3) 범위 내면 추격
+	//		Vec3 dir = closestPos - zPos;
+	//		dir.Normalize();
 
-		// 플레이어를 향한 방향 계산
-		Vec3 direction = closestPlayerPosition - zombiePosition;
-		if (direction.LengthSquared() > 0.0f)
-			direction.Normalize();
+	//		// 이동
+	//		float speed = 2.0f;
+	//		Vec3  move = dir * speed * DELTA_TIME;
+	//		zombieObjs[23]->GetCharacterController()->Move(move);
 
-		// 이동 속도 설정
-		float zombieSpeed = 0.5f; // 초당 2 유닛 이동
-		Vec3 moveVector = direction * zombieSpeed * DELTA_TIME;
+	//		// 회전 (Yaw)
+	//		float yawRad = atan2f(dir.x, dir.z);
+	//		Vec3  rot = trans->GetLocalRotation();
+	//		rot.y = yawRad * (180.0f / XM_PI);
+	//		trans->SetLocalRotation(rot);
 
-		cout << moveVector.x << "," << moveVector.y << ", " << moveVector.z << endl;
-
-		bool p = zombie[23]->GetCharacterController()->GetIsPushing();
-
-		// CharacterController를 사용하여 이동
-		zombie[23]->GetCharacterController()->Move(moveVector);
-
-		// 좀비가 가장 가까운 플레이어를 바라보도록 Yaw 회전 설정
-		if (direction.LengthSquared() > 0.0f)
-		{
-			// XZ 평면에서 방향 벡터의 Yaw 각도 계산
-			float yaw = atan2(direction.x, direction.z); // 라디안 단위
-			Vec3 currentRotation = zombie[23]->GetTransform()->GetLocalRotation();
-			currentRotation.y = yaw * (180.0f / XM_PI); // 도 단위로 변환
-			zombie[23]->GetTransform()->SetLocalRotation(currentRotation);
-		}
-
-	}
+	//		// 예: Run 애니메이션 재생
+	//		zombieObjs[23]->GetAnimator()->SetBool("IsWalking", true);
+	//	}
+	//}
 }
 

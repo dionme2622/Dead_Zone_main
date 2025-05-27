@@ -232,6 +232,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="ZombieScript.h">
+      <Filter>Object\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -414,6 +417,9 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="GameFrameWork.cpp" />
     <ClCompile Include="Dead_Zone.cpp" />
+    <ClCompile Include="ZombieScript.cpp">
+      <Filter>Object\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dead_Zone.rc">
