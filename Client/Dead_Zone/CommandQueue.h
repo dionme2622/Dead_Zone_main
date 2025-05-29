@@ -25,6 +25,9 @@ public:
 
 	ComPtr<ID3D12GraphicsCommandList> GetGraphicsCmdList() { return	_cmdList; }
 	ComPtr<ID3D12GraphicsCommandList> GetResourceCmdList() { return	_resCmdList; }
+	ComPtr<ID3D12Fence>				  GetFence() { return _fence; }
+	HANDLE							  GetFenceEvent() { return _fenceEvent; }
+
 
 private:
 	ComPtr<ID3D12CommandQueue>			_cmdQueue;
@@ -56,6 +59,8 @@ public:
 
 	ComPtr<ID3D12CommandQueue> GetCmdQueue() { return _cmdQueue; }
 	ComPtr<ID3D12GraphicsCommandList> GetComputeCmdList() { return _cmdList; }
+	ComPtr<ID3D12Fence>				  GetFence() { return _fence; }
+	HANDLE							  GetFenceEvent() { return _fenceEvent; }
 
 private:
 	ComPtr<ID3D12CommandQueue>			_cmdQueue;

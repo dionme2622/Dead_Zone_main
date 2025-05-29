@@ -451,7 +451,7 @@ shared_ptr<Texture> Resources::CreateTexture(const wstring& name, DXGI_FORMAT fo
 	return texture;
 }
 
-shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource> tex2D)
+shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource>& tex2D)
 {
 	shared_ptr<Texture> texture = make_shared<Texture>();
 	texture->CreateFromResource(tex2D);

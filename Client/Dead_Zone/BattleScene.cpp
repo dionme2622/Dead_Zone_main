@@ -292,44 +292,44 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(false);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(false);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
 	//{
 	//	// 여기에 썬 오브젝트 있음

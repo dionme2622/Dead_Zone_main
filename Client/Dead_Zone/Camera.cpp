@@ -244,6 +244,7 @@ void Camera::Render_Shadow()
 	{
 		/*if(auto animator = gameObject->GetAnimator())
 			animator->PushData();*/
+
 		gameObject->GetMeshRenderer()->RenderShadow();
 	}
 }

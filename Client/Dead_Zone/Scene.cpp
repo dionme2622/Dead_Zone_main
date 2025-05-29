@@ -149,16 +149,16 @@ void Scene::RenderForward()
 	}
 }
 
-void Scene::RenderPostProcessing()
-{
-	GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::POST_PROCESSING)->OMSetRenderTargets();
-
-	// 포스트 프로세싱 셰이더 바인딩
-	auto postProcessShader = GET_SINGLE(Resources)->Get<Shader>(L"PostProccess");
-
-	GET_SINGLE(Resources)->Get<Material>(L"PostProccessing")->PushGraphicsData();
-	GET_SINGLE(Resources)->Get<Mesh>(L"Rectangle")->Render();
-}
+//void Scene::RenderPostProcessing()
+//{
+//	GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::POST_PROCESSING)->OMSetRenderTargets();
+//
+//	// 포스트 프로세싱 셰이더 바인딩
+//	auto postProcessShader = GET_SINGLE(Resources)->Get<Shader>(L"PostProccess");
+//
+//	GET_SINGLE(Resources)->Get<Material>(L"PostProccessing")->PushGraphicsData();
+//	GET_SINGLE(Resources)->Get<Mesh>(L"Rectangle")->Render();
+//}
 
 
 void Scene::SetLayerName(uint8 index, const wstring& name)
