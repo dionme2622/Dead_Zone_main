@@ -48,6 +48,8 @@ void Animator::FinalUpdate()
 	AdvanceTime();
 	// 3) 프레임 인덱스 계산
 	ComputeFrameValues();
+	// 4) 최종 행렬 계산
+	//PushData();
 }
 
 void Animator::EvaluateTransitions()

@@ -257,7 +257,7 @@ void BattleScene::LoadScene()
 	{
 		for (int i = 0; i < 1; ++i)
 		{
-			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
 
 			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
 
@@ -269,6 +269,29 @@ void BattleScene::LoadScene()
 			}
 
 			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(i * 5.0f, 80.0f, 0.0f));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+
+			_zombies.push_back(gameObjects);
+		}
+
+		for (int i = 0; i < 1; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_FarmersDaughter.bin", ZOMBIE); // MeshData* meshData
+
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(true);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
+
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(15.0f, 80.0f, 0.0f));
 			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
 			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
 			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
@@ -329,8 +352,8 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
-			gameObject->SetStatic(false);
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
 			AddGameObject(gameObject);
 		}
 	}
@@ -342,7 +365,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(true);
 			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
 			AddGameObject(gameObject);
@@ -356,7 +379,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(true);
 			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
 			AddGameObject(gameObject);

@@ -42,7 +42,7 @@ void ZombieScript::FinalUpdate()
 	if (minDistSq > detectionRangeSq)
 	{
 		// 예: Idle 애니메이션 재생
-		printf("Idle\n");
+		//printf("Idle\n");
 		GetAnimator()->SetBool("isWalking", false);
 	}
 	else {
@@ -62,7 +62,7 @@ void ZombieScript::FinalUpdate()
 		trans->SetLocalRotation(rot);
 
 		// 예: Run 애니메이션 재생
-		printf("Walking\n");
+		//printf("Walking\n");
 
 		GetAnimator()->SetBool("isWalking", true);
 	}
