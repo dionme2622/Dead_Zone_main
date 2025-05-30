@@ -154,13 +154,13 @@ void BattleScene::LoadScene()
 		_playerCamera->AddComponent(make_shared<Transform>());
 		_playerCamera->AddComponent(make_shared<Camera>());
 		//_playerCamera->AddComponent(make_shared<CameraScript>(_hwnd));
-		_playerCamera->GetTransform()->SetLocalPosition(Vec3(1.2f, 3.03f, -6.65f));
+		_playerCamera->GetTransform()->SetLocalPosition(Vec3(-10.5f, 3.03f, -6.65f));
 		_playerCamera->GetTransform()->LookAt(Vec3(0.f, 0.f, 1.f));
 		uint8 layerIndex = LayerNameToIndex(L"UI");
 		_playerCamera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
 		AddGameObject(_playerCamera);
 	}
-	//_playerCamera->GetTransform()->SetParent(_player[_myID - 1]->GetTransform());						// Player에게 Camera 를 붙인다.
+	_playerCamera->GetTransform()->SetParent(_player[_myID - 1]->GetTransform());						// Player에게 Camera 를 붙인다.
 
 #pragma endregion
 
@@ -255,7 +255,7 @@ void BattleScene::LoadScene()
 
 #pragma region Zombie
 	{
-		for (int i = 0; i < 1; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
 			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
 
@@ -278,28 +278,28 @@ void BattleScene::LoadScene()
 			_zombies.push_back(gameObjects);
 		}
 
-		for (int i = 0; i < 1; ++i)
-		{
-			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_FarmersDaughter.bin", ZOMBIE); // MeshData* meshData
+		//for (int i = 0; i < 1; ++i)
+		//{
+		//	shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader2.bin", ZOMBIE); // MeshData* meshData
 
-			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+		//	vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
 
-			for (auto& gameObject : gameObjects)
-			{
-				gameObject->SetCheckFrustum(true);
-				gameObject->SetStatic(false);
-				AddGameObject(gameObject);
-			}
+		//	for (auto& gameObject : gameObjects)
+		//	{
+		//		gameObject->SetCheckFrustum(false);
+		//		gameObject->SetStatic(true);
+		//		AddGameObject(gameObject);
+		//	}
 
-			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(15.0f, 80.0f, 0.0f));
-			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
-			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
-			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
-			gameObjects[23]->GetCharacterController()->OnEnable();
-			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+		//	gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(15.0f, 80.0f, 0.0f));
+		//	gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+		//	gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+		//	gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+		//	gameObjects[23]->GetCharacterController()->OnEnable();
+		//	gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
 
-			_zombies.push_back(gameObjects);
-		}
+		//	_zombies.push_back(gameObjects);
+		//}
 	}
 
 #pragma endregion
@@ -512,7 +512,7 @@ void BattleScene::Update()
 		}
 		else if (INPUT->GetButtonUp(KEY_TYPE::CTRL)) {
 			_isAiming = false;
-			_targetCameraPos = Vec3(1.2f, 3.03f, -6.65f); // 기본 위치
+			_targetCameraPos = Vec3(0.f, 3.03f, -7.65f); // 기본 위치
 		}
 		// 카메라 위치 부드럽게 보간
 		Vec3 currentPos = _playerCamera->GetTransform()->GetLocalPosition();

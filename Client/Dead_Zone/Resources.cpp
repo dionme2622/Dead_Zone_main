@@ -262,8 +262,8 @@ shared_ptr<MeshData> Resources::LoadModelFromBinary(const wstring& path, int typ
 	const char* Filepath = spath.c_str();
 
 	shared_ptr<MeshData> meshData = MeshData::LoadModelFromBinary(Filepath, type);
-	meshData->SetName(key);
-	Add(key, meshData);
+	//meshData->SetName(key);
+	//Add(key, meshData);
 
 	return meshData;
 }
