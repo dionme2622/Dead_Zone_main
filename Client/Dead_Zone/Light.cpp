@@ -92,8 +92,8 @@ void Light::SetLightType(LIGHT_TYPE type)
 		_shadowCamera->GetCamera()->SetScale(1.f);
 		_shadowCamera->GetCamera()->SetNear(50);
 		_shadowCamera->GetCamera()->SetFar(500);
-		_shadowCamera->GetCamera()->SetWidth(400);
-		_shadowCamera->GetCamera()->SetHeight(400);
+		_shadowCamera->GetCamera()->SetWidth(200);
+		_shadowCamera->GetCamera()->SetHeight(200);
 
 		break;
 	case LIGHT_TYPE::POINT_LIGHT:

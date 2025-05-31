@@ -74,16 +74,10 @@ PS_OUT PS_DirLight(VS_OUT input)
 
         if (0 < uv.x && uv.x < 1 && 0 < uv.y && uv.y < 1)
         {
-            //float shadowDepth = g_tex_2.Sample(g_sam_0, uv).x;
-            //if (shadowDepth > 0 && depth > shadowDepth + 0.0001f)
-            //{
-            //    color.diffuse *= 0.5f;
-            //    color.specular = (float4) 0.f;
-            //}
             float bias = 0.001f; // 실험적으로 조정
             float shadow = 0.0f;
             float2 texelSize = float2(1.0 / SHADOW_MAP_SIZE, 1.0 / SHADOW_MAP_SIZE);
-            int samples = 6; // 2x2 PCH
+            int samples = 16; // 2x2 PCH
 
             for (int x = -1; x <= 0; ++x)
             {

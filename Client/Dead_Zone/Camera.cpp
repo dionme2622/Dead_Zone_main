@@ -220,6 +220,7 @@ void Camera::Render_Shadow()
 		S_MainMatProjection = _matProjection;
 	}
 
+
 	for (auto& gameObject : _vecShadow)
 	{
 		/*if(auto animator = gameObject->GetAnimator())

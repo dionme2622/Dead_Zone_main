@@ -46,7 +46,7 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "bullet3\\BulletDynamics_Debug.lib")
 #pragma comment(lib, "bullet3\\LinearMath_Debug.lib")
 #else
-//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 #pragma comment(lib, "DirectXTex\\DirectXTex.lib")
 #pragma comment(lib, "bullet3\\BulletCollision.lib")
 #pragma comment(lib, "bullet3\\BulletDynamics.lib")

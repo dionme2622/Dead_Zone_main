@@ -208,38 +208,38 @@ void BattleScene::LoadScene()
 
 
 #pragma region UI_Test
-	//for (int32 i = 0; i < 6; i++)
-	//{
-	//	shared_ptr<GameObject> obj = make_shared<GameObject>();
-	//	obj->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
-	//	obj->AddComponent(make_shared<Transform>());
-	//	obj->SetCheckFrustum(false);
-	//	obj->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
-	//	obj->GetTransform()->SetLocalPosition(Vec3(-350.f + (i * 120), 250.f, 500.f));
-	//	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-	//	{
-	//		shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
-	//		meshRenderer->SetMesh(mesh);
-	//	}
-	//	{
-	//		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Texture");
+	for (int32 i = 0; i < 6; i++)
+	{
+		shared_ptr<GameObject> obj = make_shared<GameObject>();
+		obj->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+		obj->AddComponent(make_shared<Transform>());
+		obj->SetCheckFrustum(false);
+		obj->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-350.f + (i * 120), 250.f, 500.f));
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Texture");
 
-	//		shared_ptr<Texture> texture;
-	//		if (i < 3)
-	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->GetRTTexture(i);
-	//		else if (i < 5)
-	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::LIGHTING)->GetRTTexture(i - 3);
-	//		else
-	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SHADOW)->GetRTTexture(0);
+			shared_ptr<Texture> texture;
+			if (i < 3)
+				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->GetRTTexture(i);
+			else if (i < 5)
+				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::LIGHTING)->GetRTTexture(i - 3);
+			else
+				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SHADOW)->GetRTTexture(0);
 
-	//		shared_ptr<Material> material = make_shared<Material>();
-	//		material->SetShader(shader);
-	//		material->SetTexture(0, texture);
-	//		meshRenderer->SetMaterial(material);
-	//	}
-	//	obj->AddComponent(meshRenderer);
-	//	AddGameObject(obj);
-	//}
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		obj->AddComponent(meshRenderer);
+		AddGameObject(obj);
+	}
 #pragma endregion
 
 #pragma region ParticleSystem
@@ -540,6 +540,26 @@ void BattleScene::Update()
 		_mainLight->GetLight()->GetTransform()->SetLocalPosition(Vec3(pos));
 	}
 	
+	// [추가] _mainLight가 항상 플레이어 근처에서 섀도우카메라를 찍도록 위치 갱신
+	if (_mainLight && !_player.empty())
+	{
+		// 1. 플레이어 위치와 Forward 구하기
+		Vec3 playerPos = _player[0]->GetTransform()->GetWorldPosition();
+
+		// 2. 라이트 방향 구하기 (이미 정규화되어 있다고 가정)
+		Vec3 lightDir = Vec3(_mainLight->GetLight()->GetLightInfo().direction.x, _mainLight->GetLight()->GetLightInfo().direction.y, _mainLight->GetLight()->GetLightInfo().direction.z);
+
+		// 3. 라이트 위치 계산 (플레이어에서 라이트 방향 반대쪽으로 일정 거리)
+		float shadowDistance = 100.0f; // 필요에 따라 조정
+		Vec3 lightPos = playerPos - lightDir * shadowDistance;
+
+		// 4. 라이트 위치 갱신
+		_mainLight->GetTransform()->SetLocalPosition(lightPos);
+
+		// 5. 라이트가 플레이어를 바라보도록 회전 (섀도우카메라 방향 일치)
+		_mainLight->GetTransform()->LightLookAt(lightDir);
+	}
+
 }
 
 void BattleScene::UpdateSunOrbit()
