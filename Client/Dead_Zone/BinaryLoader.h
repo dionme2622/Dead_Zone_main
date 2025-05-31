@@ -74,16 +74,12 @@ public:
 
 	void CreateTextures();
 	void CreateMaterials();
-	void GetToRootTransform(shared_ptr<BinaryAnimClipInfo>&, vector<BinaryMeshInfo> meshes);
 public:
 	int32 GetMeshCount() { return static_cast<int32>(_meshes.size()); }
 	const BinaryMeshInfo& GetMesh(int32 idx) { return _meshes[idx]; }
 
 	vector<shared_ptr<BinaryBoneInfo>>& GetBones() { return _bones; }
 	vector<shared_ptr<BinaryAnimClipInfo>>& GetAnimClip() { return _animClips; }
-private:
-	void LoadMesh(Mesh* mesh);
-	void LoadMaterial(Material* surfaceMaterial);
 
 private:
 	vector<BinaryMeshInfo>					_meshes;

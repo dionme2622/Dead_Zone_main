@@ -33,9 +33,9 @@ void Engine::Init(const WindowInfo& info)
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 200);
 	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 200);
 
-	//CreateRenderTargetGroups();
+	CreateRenderTargetGroups();
 	ResizeWindow(_window.width, _window.height);
-	ToggleFullscreen();
+	//ToggleFullscreen();
 
 	GET_SINGLE(KeyInput)->Init(_window.hwnd);
 	GET_SINGLE(Timer)->Init();
