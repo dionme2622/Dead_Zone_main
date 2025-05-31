@@ -293,63 +293,63 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
-	{
-		// 여기에 썬 오브젝트 있음
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SkyDome.bin"); // MeshData* meshData
+	//{
+	//	// 여기에 썬 오브젝트 있음
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SkyDome.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, NONE);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, NONE);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(false);
-			gameObject->SetStatic(true);
-			AddGameObject(gameObject);
-			/*if (gameObject->GetName() == L"Sun_1")
-				_sunObject = gameObject*/;
-		}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(false);
+	//		gameObject->SetStatic(true);
+	//		AddGameObject(gameObject);
+	//		/*if (gameObject->GetName() == L"Sun_1")
+	//			_sunObject = gameObject*/;
+	//	}
 
 		// 이렇게 해야 맵의 중앙을 봄
 		//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
-	}
+	//}
 
 	{
 		// 가로등 오브젝트
@@ -371,30 +371,30 @@ void BattleScene::LoadScene()
 			Vec3(-125.9, 72, 28.8),
 		};
 
-		//for (int i=0;i<9;++i)
-		//{
-		//	shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-		//	gameObject->SetCheckFrustum(true);
-		//	gameObject->SetStatic(true);
-		//	gameObject->AddComponent(make_shared<Transform>());
-		//	gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
-		//	gameObject->AddComponent(make_shared<Light>());
-		//	gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
-		//	gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
-		//	Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
-		//	gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
+		for (int i=0;i<9;++i)
+		{
+			shared_ptr<GameObject> gameObject = make_shared<GameObject>();
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
+			gameObject->AddComponent(make_shared<Transform>());
+			gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
+			gameObject->AddComponent(make_shared<Light>());
+			gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
+			gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+			Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
+			gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
 
-		//	gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-		//	gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
-		//	gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
-		//	gameObject->GetLight()->SetLightRange(20.f);
-		//	gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
-		//	gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
-		//	++spotLightIndex;
-		//	AddGameObject(gameObject);
-		//	/*if (gameObject->GetName() == L"Sun_1")
-		//		_sunObject = gameObject*/;
-		//}
+			gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+			gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetLightRange(20.f);
+			gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
+			gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
+			++spotLightIndex;
+			AddGameObject(gameObject);
+			/*if (gameObject->GetName() == L"Sun_1")
+				_sunObject = gameObject*/;
+		}
 
 		// 이렇게 해야 맵의 중앙을 봄
 		//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
@@ -408,7 +408,7 @@ void BattleScene::LoadScene()
 		_mainLight->AddComponent(make_shared<Transform>());
 		_mainLight->AddComponent(make_shared<Light>());
 		//_mainLight->GetTransform()->SetLocalPosition(Vec3(-450.f, 950.f, -300.f));
-		_mainLight->GetTransform()->SetLocalPosition(Vec3(-400.f, 400, -00));
+		_mainLight->GetTransform()->SetLocalPosition(Vec3(-100.f, 250, -100));
 
 		_mainLight->GetLight()->SetLightDirection(Vec3(0.1, -0.8, -0.4));
 
@@ -429,6 +429,38 @@ void BattleScene::LoadScene()
 #pragma region Spot Light
 
 #pragma endregion
+
+
+	// 위치 디버그
+
+	//for (auto object : GetGameObjects()) {
+	//	shared_ptr<GameObject> obj = make_shared<GameObject>();
+	//	obj->AddComponent(make_shared<Transform>());
+	//	obj->GetTransform()->SetLocalScale(object->GetTransform()->GetLocalScale());
+	//	obj->GetTransform()->SetLocalPosition(Vec3(object->GetTransform()->GetLocalPosition()));
+	//	obj->SetStatic(false);
+	//	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+	//	{
+	//		shared_ptr<Mesh> sphereMesh = GET_SINGLE(Resources)->LoadSphereMesh();
+	//		meshRenderer->SetMesh(sphereMesh);
+	//	}
+	//	{
+	//		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+	//		shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Cliff_Rock", L"..\\Resources\\Texture\\Cliff_Rock_basecolor.png");
+	//		shared_ptr<Texture> texture2 = GET_SINGLE(Resources)->Load<Texture>(L"Cliff_Rock_Normal", L"..\\Resources\\Texture\\Cliff_Rock_normal.png");
+	//		shared_ptr<Material> material = make_shared<Material>();
+	//		material->SetShader(shader);
+	//		material->SetTexture(0, texture);
+	//		material->SetTexture(1, texture2);
+	//		meshRenderer->SetMaterial(material);
+	//	}
+	//	obj->AddComponent(meshRenderer);
+	//	//scene->AddGameObject(obj);
+	//	AddGameObject(obj);
+	}
+
+
+
 
 }
 

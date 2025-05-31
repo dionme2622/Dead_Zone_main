@@ -68,25 +68,28 @@ void Camera::SortGameObject()
 
 		if (gameObject->GetCheckFrustum())
 		{
-			/*shared_ptr<BaseCollider> baseCollider = gameObject->GetCollider();
-			shared_ptr<BoxCollider> boxCollider = dynamic_pointer_cast<BoxCollider>(baseCollider);*/
+			shared_ptr<BaseCollider> baseCollider = gameObject->GetCollider();
+			shared_ptr<BoxCollider> boxCollider = dynamic_pointer_cast<BoxCollider>(baseCollider);
 
-			/*if (boxCollider) {
+			if (boxCollider) {
 
 				Vec3 scale = gameObject->GetTransform()->GetLocalScale();
-				float scaledExtentX = boxCollider->_extents.x * scale.x;
-				float scaledExtentY = boxCollider->_extents.y * scale.y;
-				float scaledExtentZ = boxCollider->_extents.z * scale.z;
+				float scaledExtentX = scale.x;
+				float scaledExtentY = scale.y;
+				float scaledExtentZ = scale.z;
+
+				Vec3 extents = boxCollider->_extents;
+				Vec3 scaledExtents = extents * gameObject->GetTransform()->GetLocalScale();
 
 				if (_frustum.ContainsSphere(
 					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 20) == false)
+					max(max(scaledExtents.x, scaledExtents.y), scaledExtents.z) + 20) == false)
 				{
 					continue;
 				}
-			}*/
+			}
 
-			Vec3 scale = gameObject->GetTransform()->GetLocalScale();
+			/*Vec3 scale = gameObject->GetTransform()->GetLocalScale();
 			if (auto boxCollider = gameObject->GetBoxCollier())
 			{
 				float scaledExtentX = boxCollider->_extents.x;
@@ -96,11 +99,11 @@ void Camera::SortGameObject()
 
 				if (_frustum.ContainsSphere(
 					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 20) == false)
+					max(max(scaledExtentX, scaledExtentY), scaledExtentZ)) == false)
 				{
 					continue;
 				}
-			}
+			}*/
 		}
 
 		if (gameObject->GetMeshRenderer())
