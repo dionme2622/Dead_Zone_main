@@ -44,19 +44,19 @@ void BattleScene::LoadScene()
 
 
 #pragma region DebugCamera
-	{
-		_playerCamera = make_shared<GameObject>();
-		_playerCamera->SetName(L"Debug_Camera");
-		_playerCamera->AddComponent(make_shared<Transform>());
-		_playerCamera->AddComponent(make_shared<Camera>());
-		_playerCamera->AddComponent(make_shared <TestAnimation>(_hwnd));
-		_playerCamera->GetTransform()->SetLocalPosition(Vec3(0.0f, 100.0f, 100.f));
-		_playerCamera->GetTransform()->LookAt(Vec3(0.f, 0.f, 1.f));
-		_playerCamera->GetTransform()->SetLocalRotation(Vec3(0.f, 180.f, 0.f));
-		uint8 layerIndex = LayerNameToIndex(L"UI");
-		_playerCamera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
-		AddGameObject(_playerCamera);
-	}
+	//{
+	//	_playerCamera = make_shared<GameObject>();
+	//	_playerCamera->SetName(L"Debug_Camera");
+	//	_playerCamera->AddComponent(make_shared<Transform>());
+	//	_playerCamera->AddComponent(make_shared<Camera>());
+	//	_playerCamera->AddComponent(make_shared <TestAnimation>(_hwnd));
+	//	_playerCamera->GetTransform()->SetLocalPosition(Vec3(0.0f, 100.0f, 100.f));
+	//	_playerCamera->GetTransform()->LookAt(Vec3(0.f, 0.f, 1.f));
+	//	_playerCamera->GetTransform()->SetLocalRotation(Vec3(0.f, 180.f, 0.f));
+	//	uint8 layerIndex = LayerNameToIndex(L"UI");
+	//	_playerCamera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
+	//	AddGameObject(_playerCamera);
+	//}
 #pragma endregion
 
 #pragma region SkyBox
@@ -146,18 +146,18 @@ void BattleScene::LoadScene()
 
 	
 #pragma region PlayerCamera
-	//{
-	//	_playerCamera = make_shared<GameObject>();
-	//	_playerCamera->SetName(L"Main_Camera");
-	//	_playerCamera->AddComponent(make_shared<Transform>());
-	//	_playerCamera->AddComponent(make_shared<Camera>());
-	//	_playerCamera->GetTransform()->SetLocalPosition(Vec3(1.2f, 3.03f, -6.65f));
-	//	_playerCamera->GetTransform()->LookAt(Vec3(0.f, 0.f, 1.f));
-	//	uint8 layerIndex = LayerNameToIndex(L"UI");
-	//	_playerCamera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
-	//	AddGameObject(_playerCamera);
-	//}
-	//_playerCamera->GetTransform()->SetParent(_player[_myID - 1]->GetTransform());						// Player에게 Camera 를 붙인다.
+	{
+		_playerCamera = make_shared<GameObject>();
+		_playerCamera->SetName(L"Main_Camera");
+		_playerCamera->AddComponent(make_shared<Transform>());
+		_playerCamera->AddComponent(make_shared<Camera>());
+		_playerCamera->GetTransform()->SetLocalPosition(Vec3(1.2f, 3.03f, -6.65f));
+		_playerCamera->GetTransform()->LookAt(Vec3(0.f, 0.f, 1.f));
+		uint8 layerIndex = LayerNameToIndex(L"UI");
+		_playerCamera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
+		AddGameObject(_playerCamera);
+	}
+	_playerCamera->GetTransform()->SetParent(_player[_myID - 1]->GetTransform());						// Player에게 Camera 를 붙인다.
 
 #pragma endregion
 
@@ -184,6 +184,7 @@ void BattleScene::LoadScene()
 		obj->AddComponent(make_shared<Transform>());
 		obj->GetTransform()->SetLocalScale(Vec3(30.f, 30.f, 1.f));
 		obj->GetTransform()->SetLocalPosition(Vec3(0, 0, 1.f));
+		obj->SetCheckFrustum(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
 		{
 			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
@@ -252,28 +253,28 @@ void BattleScene::LoadScene()
 
 
 #pragma region Zombie
-	{
-		for (int i = 0; i < 10; ++i)
-		{
-			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
+	//{
+	//	for (int i = 0; i < 10; ++i)
+	//	{
+	//		shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
 
-			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+	//		vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
 
-			for (auto& gameObject : gameObjects)
-			{
-				gameObject->SetCheckFrustum(true);
-				gameObject->SetStatic(false);
-				AddGameObject(gameObject);
-			}
+	//		for (auto& gameObject : gameObjects)
+	//		{
+	//			gameObject->SetCheckFrustum(true);
+	//			gameObject->SetStatic(false);
+	//			AddGameObject(gameObject);
+	//		}
 
-			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(i * 5.0f, 80.0f, 0.0f));
-			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
-			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
-			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
-			gameObjects[23]->GetCharacterController()->OnEnable();
-			_zombies.push_back(gameObjects);
-		}
-	}
+	//		gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(i * 5.0f, 80.0f, 0.0f));
+	//		gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+	//		gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+	//		gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+	//		gameObjects[23]->GetCharacterController()->OnEnable();
+	//		_zombies.push_back(gameObjects);
+	//	}
+	//}
 
 #pragma endregion
 
@@ -292,63 +293,63 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	//{
-	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
+	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
 
-	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-	//	for (auto& gameObject : gameObjects)
-	//	{
-	//		gameObject->SetCheckFrustum(true);
-	//		gameObject->SetStatic(false);
-	//		AddGameObject(gameObject);
-	//	}
-	//}
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(false);
+			AddGameObject(gameObject);
+		}
+	}
 
-	//{
-	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
+	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
 
-	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-	//	for (auto& gameObject : gameObjects)
-	//	{
-	//		gameObject->SetCheckFrustum(true);
-	//		gameObject->SetStatic(false);
-	//		AddGameObject(gameObject);
-	//	}
-	//}
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(false);
+			AddGameObject(gameObject);
+		}
+	}
 
-	//{
-	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
+	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
 
-	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
 
-	//	for (auto& gameObject : gameObjects)
-	//	{
-	//		gameObject->SetCheckFrustum(false);
-	//		gameObject->SetStatic(false);
-	//		AddGameObject(gameObject);
-	//	}
-	//}
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(false);
+			AddGameObject(gameObject);
+		}
+	}
 
-	//{
-	//	// 여기에 썬 오브젝트 있음
-	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SkyDome.bin"); // MeshData* meshData
+	{
+		// 여기에 썬 오브젝트 있음
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SkyDome.bin"); // MeshData* meshData
 
-	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, NONE);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, NONE);
 
-	//	for (auto& gameObject : gameObjects)
-	//	{
-	//		gameObject->SetCheckFrustum(false);
-	//		gameObject->SetStatic(true);
-	//		AddGameObject(gameObject);
-	//		/*if (gameObject->GetName() == L"Sun_1")
-	//			_sunObject = gameObject*/;
-	//	}
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(false);
+			gameObject->SetStatic(true);
+			AddGameObject(gameObject);
+			/*if (gameObject->GetName() == L"Sun_1")
+				_sunObject = gameObject*/;
+		}
 
-	//	// 이렇게 해야 맵의 중앙을 봄
-	//	//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
-	//}
+		// 이렇게 해야 맵의 중앙을 봄
+		//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
+	}
 
 	{
 		// 가로등 오브젝트
@@ -407,7 +408,7 @@ void BattleScene::LoadScene()
 		_mainLight->AddComponent(make_shared<Transform>());
 		_mainLight->AddComponent(make_shared<Light>());
 		//_mainLight->GetTransform()->SetLocalPosition(Vec3(-450.f, 950.f, -300.f));
-		_mainLight->GetTransform()->SetLocalPosition(Vec3(-100.f, 400, -300));
+		_mainLight->GetTransform()->SetLocalPosition(Vec3(-400.f, 400, -00));
 
 		_mainLight->GetLight()->SetLightDirection(Vec3(0.1, -0.8, -0.4));
 
@@ -474,6 +475,26 @@ void BattleScene::Update()
 	//}
 	/*Vec3 pos = _playerCamera->GetTransform()->GetLocalPosition();
 	cout << pos.x << ", " << pos.y << ", " << pos.z << endl;*/
+	Vec3 pos = _mainLight->GetTransform()->GetLocalPosition();
+	if (INPUT->GetButton(KEY_TYPE::UP)) {
+		pos.z += 100.0f * DELTA_TIME; // 위로 이동
+	}
+	else if (INPUT->GetButton(KEY_TYPE::DOWN)) {
+		pos.z -= 100.0f * DELTA_TIME; // 아래로 이동
+	}
+	else if (INPUT->GetButton(KEY_TYPE::LEFT)) {
+		pos.x -= 100.0f * DELTA_TIME; // 왼쪽으로 이동
+	}
+	else if (INPUT->GetButton(KEY_TYPE::RIGHT)) {
+		pos.x += 100.0f * DELTA_TIME; // 오른쪽으로 이동
+	}
+	else if (INPUT->GetButton(KEY_TYPE::CTRL)) {
+		pos.y -= 5.0f * DELTA_TIME; // 오른쪽으로 이동
+	}
+
+	_mainLight->GetLight()->GetTransform()->SetLocalPosition(Vec3(pos));
+
+	
 }
 
 void BattleScene::UpdateSunOrbit()

@@ -33,7 +33,7 @@ struct RenderTarget
 class RenderTargetGroup
 {
 public:
-	void Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture>& dsTexture);
+	void Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture> dsTexture);
 
 	void OMSetRenderTargets(uint32 count, uint32 offset);
 	void OMSetRenderTargets();

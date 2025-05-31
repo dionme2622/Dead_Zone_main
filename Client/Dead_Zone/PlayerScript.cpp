@@ -123,11 +123,18 @@ void PlayerScript::UpdateKeyInput()
 	_prevPosition = currentPos;
 }
 
+void SetCursorVisible(bool visible)
+{
+	while (ShowCursor(visible) < (visible ? 0 : 1)) {}
+}
 
 void PlayerScript::UpdateMouseInput()
 {
-	if (INPUT->GetButtonDown(KEY_TYPE::Q))
+	if (INPUT->GetButtonDown(KEY_TYPE::Q)) {
 		_mouseMove = !_mouseMove;
+		//SetCursorVisible(_mouseMove);
+		cout << _mouseMove << endl;
+	}
 
 	POINT mousePos;
 	SetCapture(_hwnd);

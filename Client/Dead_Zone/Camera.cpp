@@ -93,11 +93,10 @@ void Camera::SortGameObject()
 				float scaledExtentY = boxCollider->_extents.y;
 				float scaledExtentZ = boxCollider->_extents.z;
 
-				
 
 				if (_frustum.ContainsSphere(
 					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 40) == false)
+					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 20) == false)
 				{
 					continue;
 				}

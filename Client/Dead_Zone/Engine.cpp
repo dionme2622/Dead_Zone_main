@@ -12,6 +12,7 @@
 #include "InstancingManager.h"
 #include "PhysicsSystem.h"
 #include "DebugRenderer.h"
+
 void Engine::Init(const WindowInfo& info)
 {
 	_window = info;
@@ -29,18 +30,18 @@ void Engine::Init(const WindowInfo& info)
 	_computeDescHeap->Init();
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 300);
-	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 300);
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 100);
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 100);
 
-	CreateRenderTargetGroups();
-
+	//CreateRenderTargetGroups();
 	ResizeWindow(_window.width, _window.height);
+	ToggleFullscreen();
 
 	GET_SINGLE(KeyInput)->Init(_window.hwnd);
 	GET_SINGLE(Timer)->Init();
 	GET_SINGLE(Resources)->Init();
 	GET_SINGLE(PhysicsSystem)->Init();
-	GET_SINGLE(DebugRenderer)->Init(DEVICE, 100000);
+	GET_SINGLE(DebugRenderer)->Init(DEVICE, 10000);
 }
 
 void Engine::Update()
@@ -61,8 +62,6 @@ void Engine::Update()
 
 void Engine::Render()
 {
-	//GetGraphicsDescHeap()->Clear();
-
 	RenderBegin();
 
 	GET_SINGLE(SceneManager)->Render();
@@ -277,7 +276,7 @@ void Engine::ReleaseRenderTargets()
 
 	_rtGroups.fill(nullptr);
 
-	// _dsTexture->GetTex2D().Reset();
+	 //_dsTexture->GetTex2D().Reset();
 }
 
 
@@ -286,3 +285,10 @@ void Engine::ReleaseRenderTargets()
 // ResizeBuffer한 다음에 Swap chain index가 바뀌었을 수 있다. back buffer index는 IDXGISwapChain3::GetCurrentBackBufferIndex()로 얻자.
 // 스마트 포인터들 reset하거나 대입하고 싶을 때, 복사본에다 reset하거나 대입해봐야 의미가 없다. 안 바뀐다.
 //		=> 스마트 포인터 getter를 제공할 때에는, 정말로 복사를 의도한 게 아닌 이상 다 레퍼런스로 반환하도록 하자.
+//
+// 그림자 과련 메모리에 데이터 매핑을 하는데 사이즈랑 맞지 않아서 다른 메모리에 침범해서 텍스처가 깨질수 있다.
+
+
+// Create할 때 만들었던 사이즈보다,
+// PushGraphicsData 등으로 mapping된 포인터에 memcpy할 때 memcpy하는 사이즈가 커서, 잡혀있는 메모리를 초과했을 가능성이 있다.
+// 그래서 옆에 메모리를 막 침범했을 수 있다.
