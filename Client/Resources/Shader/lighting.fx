@@ -31,6 +31,10 @@ struct PS_OUT
 // g_mat_0 : ShadowCamera VP
 // Mesh : Rectangle
 
+static const float SHADOW_MAP_SIZE = 4096.0f * 4;
+static const float SHADOW_MAP_DX = 1.0 / SHADOW_MAP_SIZE;
+
+
 VS_OUT VS_DirLight(VS_IN input)
 {
     VS_OUT output = (VS_OUT) 0;
@@ -70,12 +74,32 @@ PS_OUT PS_DirLight(VS_OUT input)
 
         if (0 < uv.x && uv.x < 1 && 0 < uv.y && uv.y < 1)
         {
-            float shadowDepth = g_tex_2.Sample(g_sam_0, uv).x;
-            if (shadowDepth > 0 && depth > shadowDepth + 0.0001f)
+            //float shadowDepth = g_tex_2.Sample(g_sam_0, uv).x;
+            //if (shadowDepth > 0 && depth > shadowDepth + 0.0001f)
+            //{
+            //    color.diffuse *= 0.5f;
+            //    color.specular = (float4) 0.f;
+            //}
+            float bias = 0.001f; // 실험적으로 조정
+            float shadow = 0.0f;
+            float2 texelSize = float2(1.0 / SHADOW_MAP_SIZE, 1.0 / SHADOW_MAP_SIZE);
+            int samples = 6; // 2x2 PCH
+
+            for (int x = -1; x <= 0; ++x)
             {
-                color.diffuse *= 0.5f;
-                color.specular = (float4) 0.f;
+                for (int y = -1; y <= 0; ++y)
+                {
+                    float2 offset = float2(x, y) * texelSize;
+                    float sampleDepth = g_tex_2.SampleCmpLevelZero(g_sam_shadow, uv + offset, depth);
+                    shadow += (depth <= sampleDepth + bias) ? 1.0f : 0.0f;
+                }
             }
+            shadow /= 4.0f;
+            
+            // PCH 보간된 shadow 값 사용
+            color.diffuse *= lerp(0.5f, 1.0f, shadow);
+            if (shadow < 0.5f)
+                color.specular = (float4) 0.f;
         }
     }
      // 메탈릭 값 계산 (예: 노멀의 z값을 기반으로 메탈릭 정도를 설정)

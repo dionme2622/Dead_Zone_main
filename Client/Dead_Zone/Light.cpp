@@ -8,7 +8,6 @@
 #include "SceneManager.h"
 #include "KeyInput.h"
 
-
 Light::Light() : Component(COMPONENT_TYPE::LIGHT)
 {
 	_shadowCamera = make_shared<GameObject>();
@@ -27,18 +26,15 @@ void Light::FinalUpdate()
 
 	Vec3 lightDir = Vec3(_lightInfo.direction.x, _lightInfo.direction.y, _lightInfo.direction.z);
 
-	/*if (INPUT->GetButton(KEY_TYPE::UP)) {
-		a += 5;
-	}
-	if (INPUT->GetButton(KEY_TYPE::DOWN)) {
-		a -= 5;
-	}*/
-
 	_shadowCamera->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
-	_shadowCamera->GetTransform()->SetLocalRotation(Vec3(35.0, 15.01, 0.01));
+	//_shadowCamera->GetTransform()->SetLocalRotation(Vec3(35.0, 15.01, 0.01));
 
-	Vec3 rot = _shadowCamera->GetTransform()->GetLocalRotation();
+	SetCameraRotationFromDirection(_shadowCamera->GetTransform(), lightDir);
+
+	//cout << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << endl;
+
+	//Vec3 rot = _shadowCamera->GetTransform()->GetLocalRotation();
 
 	_shadowCamera->FinalUpdate();
 }
@@ -65,7 +61,6 @@ void Light::Render()
 
 	_lightMaterial->SetInt(0, _lightIndex);
 	_lightMaterial->PushGraphicsData();
-
 	_volumeMesh->Render();
 }
 
@@ -97,8 +92,8 @@ void Light::SetLightType(LIGHT_TYPE type)
 		_shadowCamera->GetCamera()->SetScale(1.f);
 		_shadowCamera->GetCamera()->SetNear(50);
 		_shadowCamera->GetCamera()->SetFar(500);
-		_shadowCamera->GetCamera()->SetWidth(300);
-		_shadowCamera->GetCamera()->SetHeight(300);
+		_shadowCamera->GetCamera()->SetWidth(400);
+		_shadowCamera->GetCamera()->SetHeight(400);
 
 		break;
 	case LIGHT_TYPE::POINT_LIGHT:
@@ -113,4 +108,14 @@ void Light::SetLightType(LIGHT_TYPE type)
 }
 
 
+void Light::SetCameraRotationFromDirection(shared_ptr<Transform> transform, Vec3 lightDir) {
+	Vec3 dir = lightDir;
 
+	// 오일러 각도 계산 (도 단위)
+	float yaw = atan2f(dir.x, dir.z) * (180.0f / XM_PI); // Y축 회전
+	float pitch = asinf(-dir.y) * (180.0f / XM_PI);      // X축 회전
+	float roll = 0.0f;                                    // Z축 회전 (고정)
+
+	// 오일러 각도를 Transform에 적용
+	transform->SetLocalRotation(Vec3(pitch, yaw, roll));
+}
