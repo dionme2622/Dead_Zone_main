@@ -151,7 +151,7 @@ void Mesh::CreateIndexBuffer(const vector<uint32>& buffer)
 	_vecIndexInfo.push_back(info);
 }
 
-void Mesh::CreateBonesAndAnimations(class BinaryLoader& loader, int type)
+void Mesh::CreateBonesAndAnimations(class BinaryLoader& loader, int type)	
 {
 #pragma region AnimClip
 	uint32 frameCount = 0;

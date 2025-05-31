@@ -1,4 +1,4 @@
-// AnimatorController.h
+﻿// AnimatorController.h
 #pragma once
 #include <string>
 #include <vector>
@@ -46,6 +46,35 @@ public:
     {
         auto it = _paramMap.find(name);
         return it == _paramMap.end() ? -1 : it->second;
+    }
+
+    shared_ptr<AnimatorController> Clone() const {
+        // 1) 새 컨트롤러 인스턴스 생성
+        auto copy = std::make_shared<AnimatorController>();
+
+        // 2) 파라미터 정의 복사
+        copy->_paramDefs = _paramDefs;
+        copy->_paramMap = _paramMap;
+
+        // 3) 스테이트 머신 정의(스테이트 포인터) 복사
+        //    – AnimationState 객체는 "정의(transition, clip 등)"만 담고 있으므로
+        //      얕은 복사로 공유해도 안전합니다.
+        for (auto& kv : _states)
+        {
+            copy->_states[kv.first] = kv.second;
+        }
+
+        // 4) 엔트리, any, current 스테이트 복제본에서 다시 찾아 연결
+        if (_entryState)
+            copy->_entryState = copy->_states.at(_entryState->GetName());
+        if (_anyState)
+            copy->_anyState = copy->_states.at(_anyState->GetName());
+        if (_currentState)
+            copy->_currentState = copy->_states.at(_currentState->GetName());
+
+        return copy;
+
+
     }
 
 private:

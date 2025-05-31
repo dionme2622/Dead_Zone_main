@@ -48,6 +48,8 @@ void Animator::FinalUpdate()
 	AdvanceTime();
 	// 3) 프레임 인덱스 계산
 	ComputeFrameValues();
+	// 4) 최종 행렬 계산
+	//PushData();
 }
 
 void Animator::EvaluateTransitions()
@@ -135,9 +137,9 @@ void Animator::PushData()
 
 
 	// Compute Shader에 클립 데이터 전송
-	auto currentClipIndex = _currentState->GetClipIndex();					// 컨트롤러의 현재 State의 애니메이션 클립 Index 값을 가져온다
+	auto currentClipIndex = _currentState->GetClipIndex();									// 컨트롤러의 현재 State의 애니메이션 클립 Index 값을 가져온다
 	shared_ptr<Mesh> mesh = GetGameObject()->GetMeshRenderer()->GetMesh();
-	mesh->GetBoneFrameDataBuffer(currentClipIndex)->PushComputeSRVData(SRV_REGISTER::t8);					// 컨트롤러의 현재 State의 몇 번째 애니메이션 클립인지 보내야 한다.
+	mesh->GetBoneFrameDataBuffer(currentClipIndex)->PushComputeSRVData(SRV_REGISTER::t8);	// 컨트롤러의 현재 State의 몇 번째 애니메이션 클립인지 보내야 한다.
 	mesh->GetBoneOffsetBuffer()->PushComputeSRVData(SRV_REGISTER::t9);						// 그대로 유지
 
 	_boneFinalMatrix->PushComputeUAVData(UAV_REGISTER::u0);

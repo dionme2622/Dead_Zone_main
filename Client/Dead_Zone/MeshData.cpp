@@ -11,6 +11,7 @@
 #include "BoxCollider.h"
 #include "RigidBody.h"
 #include "MeshCollider.h"
+#include "AnimatorController.h"
 
 MeshData::MeshData() : Object(OBJECT_TYPE::MESH_DATA)
 {
@@ -39,7 +40,8 @@ shared_ptr<MeshData> MeshData::LoadModelFromBinary(const char* path, int type)
 			GET_SINGLE(Resources)->Add<Mesh>(mesh->GetName(), mesh);
 
 			shared_ptr<MeshCollider> meshCollider = make_shared<MeshCollider>(loader.GetMesh(i).btvertices, loader.GetMesh(i).indices[0], false);
-			info.mesh = GET_SINGLE(Resources)->Get<Mesh>(mesh->GetName());
+			//info.mesh = GET_SINGLE(Resources)->Get<Mesh>(mesh->GetName());
+			info.mesh = mesh;
 			info.meshCollider = meshCollider;
 		}
 

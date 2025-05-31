@@ -8,6 +8,8 @@
 #include "Camera.h"
 #include "Light.h"
 #include "PlayerScript.h"
+#include "ZombieScript.h"
+#include "CameraScript.h"
 #include "Engine.h"
 #include "Resources.h"
 #include "MeshData.h"
@@ -75,7 +77,7 @@ void BattleScene::LoadScene()
 		}
 		{
 			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Skybox");
-			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Sky01", L"..\\Resources\\Texture\\SimpleSky.png");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Sky01", L"..\\Resources\\Texture\\BackGround.png");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
@@ -253,28 +255,53 @@ void BattleScene::LoadScene()
 
 
 #pragma region Zombie
-	//{
-	//	for (int i = 0; i < 10; ++i)
-	//	{
-	//		shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
 
-	//		vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
 
-	//		for (auto& gameObject : gameObjects)
-	//		{
-	//			gameObject->SetCheckFrustum(true);
-	//			gameObject->SetStatic(false);
-	//			AddGameObject(gameObject);
-	//		}
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(true);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
 
-	//		gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(i * 5.0f, 80.0f, 0.0f));
-	//		gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
-	//		gameObjects[23]->GetCharacterController()->SetIsPushing(false);
-	//		gameObjects[23]->AddComponent(make_shared<PlayerStats>());
-	//		gameObjects[23]->GetCharacterController()->OnEnable();
-	//		_zombies.push_back(gameObjects);
-	//	}
-	//}
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(i * 5.0f, 80.0f, 0.0f));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+
+			_zombies.push_back(gameObjects);
+		}
+
+		//for (int i = 0; i < 1; ++i)
+		//{
+		//	shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader2.bin", ZOMBIE); // MeshData* meshData
+
+		//	vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+		//	for (auto& gameObject : gameObjects)
+		//	{
+		//		gameObject->SetCheckFrustum(false);
+		//		gameObject->SetStatic(true);
+		//		AddGameObject(gameObject);
+		//	}
+
+		//	gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(15.0f, 80.0f, 0.0f));
+		//	gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+		//	gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+		//	gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+		//	gameObjects[23]->GetCharacterController()->OnEnable();
+		//	gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+
+		//	_zombies.push_back(gameObjects);
+		//}
+	}
 
 #pragma endregion
 
@@ -333,6 +360,33 @@ void BattleScene::LoadScene()
 	}
 
 	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Kiosk_01.bin"); // MeshData* meshData
+
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
+			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
+			AddGameObject(gameObject);
+		}
+	}
+
+	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Kiosk_02.bin"); // MeshData* meshData
+
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
+			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
+			AddGameObject(gameObject);
+		}
+	}
+	{
 		// 여기에 썬 오브젝트 있음
 		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\SkyDome.bin"); // MeshData* meshData
 
@@ -352,10 +406,6 @@ void BattleScene::LoadScene()
 	}
 
 	{
-		// 가로등 오브젝트
-		//shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\SpotLight.bin"); // MeshData* meshData
-
-		//vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, NONE);
 		int spotLightIndex = 0;
 
 		// 조명 위치
@@ -532,30 +582,69 @@ void BattleScene::UpdateSunOrbit()
 
 void BattleScene::UpdateZombieMove()
 {
-	Vec3 playerPosition = _player[0]->GetTransform()->GetLocalPosition();
+	//const float detectionRange = 20.0f;
+	//const float detectionRangeSq = detectionRange * detectionRange;
+			Vec3 playerPosition = player->GetTransform()->GetLocalPosition();
+	//for (auto& zombieObjs : _zombies)
+	//{
+	//	auto  trans = zombieObjs[23]->GetTransform();
+	//	Vec3  zPos = trans->GetLocalPosition();
+			if (distanceSquared < minDistanceSquared)
+	//	// --- 1) 가장 가까운 플레이어까지의 거리 제곱 찾기
+	//	float minDistSq = FLT_MAX;
+	//	Vec3  closestPos{};
+	//	for (auto& player : _player)
+	//	{
+	//		Vec3 delta = player->GetTransform()->GetLocalPosition() - zPos;
+	//		float d2 = delta.LengthSquared();
+	//		if (d2 < minDistSq)
+	//		{
+	//			minDistSq = d2;
+	//			closestPos = player->GetTransform()->GetLocalPosition();
+	//		}
+	//	}
 
-	// 좀비 이동 처리
-	for (auto& zombie : _zombies)
-	{
-		// 좀비의 현재 위치
-		Vec3 zombiePosition = zombie[23]->GetTransform()->GetLocalPosition();
+	//	// --- 2) 범위 밖이면 '가만히' 놔둔다
+	//	if (minDistSq > detectionRangeSq)
+	//	{
+	//		// 예: Idle 애니메이션 재생
+	//		zombieObjs[23]->GetAnimator()->SetBool("IsWalking", false);
+	//		continue;
+	//	}
+	//	else {
+	//		// --- 3) 범위 내면 추격
+	//		Vec3 dir = closestPos - zPos;
+	//		dir.Normalize();
+			}
+		}
 
 		// 플레이어를 향한 방향 계산
-		Vec3 direction = playerPosition - zombiePosition;
+		Vec3 direction = closestPlayerPosition - zombiePosition;
 		if (direction.LengthSquared() > 0.0f)
-			direction.Normalize();
+	//		// 회전 (Yaw)
+	//		float yawRad = atan2f(dir.x, dir.z);
+	//		Vec3  rot = trans->GetLocalRotation();
+	//		rot.y = yawRad * (180.0f / XM_PI);
+	//		trans->SetLocalRotation(rot);
 
-		// 이동 속도 설정
-		float zombieSpeed = 2.0f; // 초당 2 유닛 이동
-		Vec3 moveVector = direction * zombieSpeed * DELTA_TIME;
+	//		// 예: Run 애니메이션 재생
+	//		zombieObjs[23]->GetAnimator()->SetBool("IsWalking", true);
+	//	}
+	//}
+	//		float speed = 2.0f;
+	//		Vec3  move = dir * speed * DELTA_TIME;
+	//		zombieObjs[23]->GetCharacterController()->Move(move);
 
-		bool p = zombie[23]->GetCharacterController()->GetIsPushing();
+		// 좀비가 가장 가까운 플레이어를 바라보도록 Yaw 회전 설정
+		if (direction.LengthSquared() > 0.0f)
+		{
+			// XZ 평면에서 방향 벡터의 Yaw 각도 계산
+			float yaw = atan2(direction.x, direction.z); // 라디안 단위
+			Vec3 currentRotation = zombie[23]->GetTransform()->GetLocalRotation();
+			currentRotation.y = yaw * (180.0f / XM_PI); // 도 단위로 변환
+			zombie[23]->GetTransform()->SetLocalRotation(currentRotation);
+		}
 
-		// CharacterController를 사용하여 이동
-		zombie[23]->GetCharacterController()->Move(moveVector);
-
-		// 좀비가 플레이어를 바라보도록 설정
-		zombie[23]->GetTransform()->LookAt(playerPosition);
 	}
 }
 
