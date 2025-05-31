@@ -30,12 +30,12 @@ void Engine::Init(const WindowInfo& info)
 	_computeDescHeap->Init();
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 100);
-	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 100);
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 300);
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 300);
 
-	//CreateRenderTargetGroups();
+	CreateRenderTargetGroups();
 	ResizeWindow(_window.width, _window.height);
-	ToggleFullscreen();
+	//ToggleFullscreen();
 
 	GET_SINGLE(KeyInput)->Init(_window.hwnd);
 	GET_SINGLE(Timer)->Init();

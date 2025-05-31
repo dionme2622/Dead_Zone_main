@@ -282,6 +282,7 @@ void Mesh::CreateBonesAndAnimations(class BinaryLoader& loader, int type)
 			break;
 		case ZOMBIE:
 			GET_SINGLE(Resources)->AddAnimClip(L"Zombie_Idle", _animClips[0]);
+			GET_SINGLE(Resources)->AddAnimClip(L"Zombie_Walk", _animClips[1]);
 			break;
 		}
 	}

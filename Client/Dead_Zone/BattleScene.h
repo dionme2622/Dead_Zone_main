@@ -17,7 +17,6 @@ public:
 public:
 	void UpdateSunOrbit();
 
-	void UpdateZombieMove();
 
 
 	static bool isPlayerGrounded;
