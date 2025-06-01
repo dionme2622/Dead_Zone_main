@@ -7,7 +7,7 @@ enum class RENDER_TARGET_GROUP_TYPE : uint8
 	SHADOW,		// SHADOW
 	G_BUFFER,	// POSITION, NORMAL, COLOR
 	LIGHTING,	// DIFFUSE LIGHT, SPECULAR LIGHT
-	POST_PROCESSING,	// POST_PROCESSING
+	//POST_PROCESSING,	// POST_PROCESSING
 	//BLUR,
 	END,
 };
@@ -17,16 +17,18 @@ enum
 	RENDER_TARGET_SHADOW_GROUP_MEMBER_COUNT = 1,
 	RENDER_TARGET_G_BUFFER_GROUP_MEMBER_COUNT = 3,
 	RENDER_TARGET_LIGHTING_GROUP_MEMBER_COUNT = 3,
-	RENDER_TARGET_POST_PROCCESING_GROUP_MEMBER_COUNT = 1,
+	//RENDER_TARGET_POST_PROCCESING_GROUP_MEMBER_COUNT = 1,
 	//RENDER_TARGET_BLUR_GROUP_MEMBER_COUNT = 1,
 	RENDER_TARGET_GROUP_COUNT = static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::END)
 };
+
 
 struct RenderTarget
 {
 	shared_ptr<Texture> target;
 	float clearColor[4];
 };
+
 
 class RenderTargetGroup
 {
@@ -39,8 +41,8 @@ public:
 	void ClearRenderTargetView(uint32 index);
 	void ClearRenderTargetView();
 
-	shared_ptr<Texture> GetRTTexture(uint32 index) { return _rtVec[index].target; }
-	shared_ptr<Texture> GetDSTexture() { return _dsTexture; }
+	shared_ptr<Texture>& GetRTTexture(uint32 index) { return _rtVec[index].target; }
+	shared_ptr<Texture>& GetDSTexture() { return _dsTexture; }
 	uint32				GetRTCount() { return _rtCount; }		
 
 	void WaitTargetToResource();

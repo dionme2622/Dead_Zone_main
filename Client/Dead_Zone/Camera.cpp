@@ -41,6 +41,9 @@ void Camera::FinalUpdate()
 		_matProjection = ::XMMatrixOrthographicLH(_width * _scale, _height * _scale, _near, _far);
 
 	_frustum.FinalUpdate();
+
+
+
 }
 
 
@@ -68,24 +71,6 @@ void Camera::SortGameObject()
 
 		if (gameObject->GetCheckFrustum())
 		{
-			/*shared_ptr<BaseCollider> baseCollider = gameObject->GetCollider();
-			shared_ptr<BoxCollider> boxCollider = dynamic_pointer_cast<BoxCollider>(baseCollider);*/
-
-			/*if (boxCollider) {
-
-				Vec3 scale = gameObject->GetTransform()->GetLocalScale();
-				float scaledExtentX = boxCollider->_extents.x * scale.x;
-				float scaledExtentY = boxCollider->_extents.y * scale.y;
-				float scaledExtentZ = boxCollider->_extents.z * scale.z;
-
-				if (_frustum.ContainsSphere(
-					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 20) == false)
-				{
-					continue;
-				}
-			}*/
-
 			Vec3 scale = gameObject->GetTransform()->GetLocalScale();
 			if (auto boxCollider = gameObject->GetBoxCollier())
 			{
@@ -93,11 +78,9 @@ void Camera::SortGameObject()
 				float scaledExtentY = boxCollider->_extents.y;
 				float scaledExtentZ = boxCollider->_extents.z;
 
-				
-
 				if (_frustum.ContainsSphere(
 					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 40) == false)
+					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 15) == false)
 				{
 					continue;
 				}
@@ -240,10 +223,12 @@ void Camera::Render_Shadow()
 		S_MainMatProjection = _matProjection;
 	}
 
+
 	for (auto& gameObject : _vecShadow)
 	{
 		/*if(auto animator = gameObject->GetAnimator())
 			animator->PushData();*/
+
 		gameObject->GetMeshRenderer()->RenderShadow();
 	}
 }

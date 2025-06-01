@@ -103,9 +103,9 @@ void Shader::CreateGraphicsShader(const wstring& path, ShaderInfo info, ShaderAr
 	case SHADER_TYPE::SHADOW:
 		_graphicsPipelineDesc.NumRenderTargets = 1;
 		_graphicsPipelineDesc.RTVFormats[0] = DXGI_FORMAT_R32_FLOAT;
-		//_graphicsPipelineDesc.RasterizerState.DepthBias = 52000000;
-		//_graphicsPipelineDesc.RasterizerState.SlopeScaledDepthBias = 2.0f; // 기울기 따라 가변 보정
-		//_graphicsPipelineDesc.RasterizerState.DepthBiasClamp = 0.0f;  // 필요하면 상한
+		_graphicsPipelineDesc.RasterizerState.DepthBias = 2000000;
+		_graphicsPipelineDesc.RasterizerState.SlopeScaledDepthBias = 2.0f; // 기울기 따라 가변 보정
+		_graphicsPipelineDesc.RasterizerState.DepthBiasClamp = 0.0f;  // 필요하면 상한
 		break;
 	}
 

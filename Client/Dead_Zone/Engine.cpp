@@ -12,6 +12,7 @@
 #include "InstancingManager.h"
 #include "PhysicsSystem.h"
 #include "DebugRenderer.h"
+
 void Engine::Init(const WindowInfo& info)
 {
 	_window = info;
@@ -29,30 +30,30 @@ void Engine::Init(const WindowInfo& info)
 	_computeDescHeap->Init();
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 30);
-	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 30);
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 100);
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 100);
 
 	CreateRenderTargetGroups();
-
 	ResizeWindow(_window.width, _window.height);
+	//ToggleFullscreen();
 
 	GET_SINGLE(KeyInput)->Init(_window.hwnd);
 	GET_SINGLE(Timer)->Init();
 	GET_SINGLE(Resources)->Init();
 	GET_SINGLE(PhysicsSystem)->Init();
-	GET_SINGLE(DebugRenderer)->Init(DEVICE, 100000);
+	GET_SINGLE(DebugRenderer)->Init(DEVICE, 10000);
 }
 
 void Engine::Update()
 {
+	if (INPUT->GetButtonDown(KEY_TYPE::F9)) {
+		ToggleFullscreen();
+	}
+
 	GET_SINGLE(KeyInput)->Update();
 	GET_SINGLE(Timer)->Update();
 	GET_SINGLE(SceneManager)->Update();
 	GET_SINGLE(InstancingManager)->ClearBuffer();
-
-	if (INPUT->GetButtonDown(KEY_TYPE::F9)) {
-		ToggleFullscreen();
-	}
 
 	Render();
 
@@ -111,8 +112,10 @@ void Engine::CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 co
 
 void Engine::CreateRenderTargetGroups()
 {
+	static int j = 0;
+
 	// DepthStencil
-	shared_ptr<Texture> dsTexture = GET_SINGLE(Resources)->CreateTexture(L"DepthStencil",
+	_dsTexture = GET_SINGLE(Resources)->CreateTexture(L"DepthStencil",
 		DXGI_FORMAT_D32_FLOAT, _window.width, _window.height,
 		CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 		D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
@@ -130,7 +133,7 @@ void Engine::CreateRenderTargetGroups()
 		}
 
 		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN)] = make_shared<RenderTargetGroup>();
-		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN)]->Create(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN, rtVec, dsTexture);
+		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN)]->Create(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN, rtVec, _dsTexture);
 	}
 
 	// Shadow Group
@@ -138,12 +141,12 @@ void Engine::CreateRenderTargetGroups()
 		vector<RenderTarget> rtVec(RENDER_TARGET_SHADOW_GROUP_MEMBER_COUNT);
 
 		rtVec[0].target = GET_SINGLE(Resources)->CreateTexture(L"ShadowTarget",
-			DXGI_FORMAT_R32_FLOAT, 4096 * 4, 4096 * 4,
+			DXGI_FORMAT_R32_FLOAT, 2048, 2048,
 			CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
 		shared_ptr<Texture> shadowDepthTexture = GET_SINGLE(Resources)->CreateTexture(L"ShadowDepthStencil",
-			DXGI_FORMAT_D32_FLOAT, 4096 * 4, 4096 * 4,
+			DXGI_FORMAT_D32_FLOAT, 4096 * 2, 4096 * 2,
 			CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 
@@ -171,7 +174,7 @@ void Engine::CreateRenderTargetGroups()
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
 		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::G_BUFFER)] = make_shared<RenderTargetGroup>();
-		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::G_BUFFER)]->Create(RENDER_TARGET_GROUP_TYPE::G_BUFFER, rtVec, dsTexture);
+		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::G_BUFFER)]->Create(RENDER_TARGET_GROUP_TYPE::G_BUFFER, rtVec, _dsTexture);
 	}
 
 	// Lighting Group
@@ -194,11 +197,11 @@ void Engine::CreateRenderTargetGroups()
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
 		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::LIGHTING)] = make_shared<RenderTargetGroup>();
-		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::LIGHTING)]->Create(RENDER_TARGET_GROUP_TYPE::LIGHTING, rtVec, dsTexture);
+		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::LIGHTING)]->Create(RENDER_TARGET_GROUP_TYPE::LIGHTING, rtVec, _dsTexture);
 	}
 
 	// Post Processing Group
-	{
+	/*{
 		vector<RenderTarget> rtVec(RENDER_TARGET_POST_PROCCESING_GROUP_MEMBER_COUNT);
 
 		rtVec[0].target = GET_SINGLE(Resources)->CreateTexture(L"PostProcessTarget",
@@ -208,7 +211,7 @@ void Engine::CreateRenderTargetGroups()
 
 		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::POST_PROCESSING)] = make_shared<RenderTargetGroup>();
 		_rtGroups[static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::POST_PROCESSING)]->Create(RENDER_TARGET_GROUP_TYPE::POST_PROCESSING, rtVec, dsTexture);
-	}
+	}*/
 
 
 	//// Final Render Group
@@ -232,53 +235,60 @@ void Engine::CreateRenderTargetGroups()
 
 void Engine::ToggleFullscreen()
 {
-    _graphicsCmdQueue->FlushResourceCommandQueue();   
+    ReleaseRenderTargets();
+	
+    _swapChain->ChangeSwapChainState(_window,
+                                     _device->GetDXGI(),
+                                     _graphicsCmdQueue->GetCmdQueue());
+	
+    CreateRenderTargetGroups();
+
+
+	_graphicsCmdQueue->FlushResourceCommandQueue();
 	_computeCmdQueue->FlushComputeCommandQueue();
 
 	_graphicsCmdQueue->WaitSync();
 	_computeCmdQueue->WaitSync();
-
-	for (auto& cb : _constantBuffers)
-		cb->ClearForResize();
-
-    ReleaseRenderTargets();      
-
-    _swapChain->ChangeSwapChainState(_window,
-                                     _device->GetDXGI(),
-                                     _graphicsCmdQueue->GetCmdQueue());
-
-    CreateRenderTargetGroups();
 }
 
 void Engine::ReleaseRenderTargets()
 {
-	// 2) 각 RenderTargetGroup 순회
 	for (auto& grp : _rtGroups)
 	{
 		if (!grp) continue;
-
-		/* --- 2-A) 각 RenderTarget(ID3D12Resource) 참조 해제 --- */
-		// rtVec 개수는 grp 내부에 저장돼 있으므로 size_t로 반복
+		
 		const uint32 rtCount = static_cast<uint32>(grp->GetRTCount());
+
 		for (uint32 i = 0; i < rtCount; ++i)
 		{
-			auto tex = grp->GetRTTexture(i);   // shared_ptr<Texture>
+			auto& tex = grp->GetRTTexture(i);
 			if (tex)
-				tex->GetTex2D().Reset();    // ComPtr<ID3D12Resource>::Reset()
+				tex->GetTex2D().Reset();
 		}
 		
-		/* --- 2-B) DepthStencil 리소스 해제 --- */
-		auto dsTex = grp->GetDSTexture();
+		auto& dsTex = grp->GetDSTexture();
+
 		if (dsTex)
 			dsTex->GetTex2D().Reset();
 
-		/* --- 2-C) RTV/DSV Heap 자체는 COM 객체라 shared_ptr 끊기면 ref-count ↓ */
-		// grp 안의 ComPtr<ID3D12DescriptorHeap> 는 grp 소멸 시 자동 Release
-
-		/* --- 2-D) shared_ptr<RenderTargetGroup> 끊기 --- */
-		grp.reset();
+		// grp.reset();
 	}
 
-	/* 3) std::array 이므로 clear 대신 fill(nullptr) */
 	_rtGroups.fill(nullptr);
+
+	 //_dsTexture->GetTex2D().Reset();
 }
+
+
+// Texture Add할 때, 새로 만든 텍스처도 같은 이름을 사용하기 때문에 mapping이 되지 않았다.
+// 지금 이 소스 265번 라인 주석 없애면 죽는다. => Reset한 텍스처에다 그렸기 때문 아닐까? 그렇다면, 새로 바뀐 텍스처에다 렌더링을 하지 않는다는 소리다.
+// ResizeBuffer한 다음에 Swap chain index가 바뀌었을 수 있다. back buffer index는 IDXGISwapChain3::GetCurrentBackBufferIndex()로 얻자.
+// 스마트 포인터들 reset하거나 대입하고 싶을 때, 복사본에다 reset하거나 대입해봐야 의미가 없다. 안 바뀐다.
+//		=> 스마트 포인터 getter를 제공할 때에는, 정말로 복사를 의도한 게 아닌 이상 다 레퍼런스로 반환하도록 하자.
+//
+// 그림자 과련 메모리에 데이터 매핑을 하는데 사이즈랑 맞지 않아서 다른 메모리에 침범해서 텍스처가 깨질수 있다.
+
+
+// Create할 때 만들었던 사이즈보다,
+// PushGraphicsData 등으로 mapping된 포인터에 memcpy할 때 memcpy하는 사이즈가 커서, 잡혀있는 메모리를 초과했을 가능성이 있다.
+// 그래서 옆에 메모리를 막 침범했을 수 있다.

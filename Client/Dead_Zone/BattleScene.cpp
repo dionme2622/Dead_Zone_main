@@ -8,6 +8,8 @@
 #include "Camera.h"
 #include "Light.h"
 #include "PlayerScript.h"
+#include "ZombieScript.h"
+#include "CameraScript.h"
 #include "Engine.h"
 #include "Resources.h"
 #include "MeshData.h"
@@ -94,7 +96,7 @@ void BattleScene::LoadScene()
 		}
 		{
 			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Skybox");
-			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Sky01", L"..\\Resources\\Texture\\BackGround.png");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Sky01", L"..\\Resources\\Texture\\SimpleSky.png");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
@@ -203,6 +205,7 @@ void BattleScene::LoadScene()
 		obj->AddComponent(make_shared<Transform>());
 		obj->GetTransform()->SetLocalScale(Vec3(30.f, 30.f, 1.f));
 		obj->GetTransform()->SetLocalPosition(Vec3(0, 0, 1.f));
+		obj->SetCheckFrustum(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
 		{
 			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
@@ -294,55 +297,14 @@ void BattleScene::LoadScene()
 			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
 			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
 			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
 			_zombies.push_back(gameObjects);
 		}
 	}
 
-	//{
-	//	for (int i = 0; i < 1; ++i)
-	//	{
-	//		shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
+	
 
-	//		vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
-
-	//		for (auto& gameObject : gameObjects)
-	//		{
-	//			gameObject->SetCheckFrustum(true);
-	//			gameObject->SetStatic(false);
-	//			AddGameObject(gameObject);
-	//		}
-
-	//		gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(-77.f, 65.f, 220.f));
-	//		gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
-	//		gameObjects[23]->GetCharacterController()->SetIsPushing(false);
-	//		gameObjects[23]->AddComponent(make_shared<PlayerStats>());
-	//		gameObjects[23]->GetCharacterController()->OnEnable();
-	//		_zombies.push_back(gameObjects);
-	//	}
-	//}
-
-	{
-		for (int i = 0; i < 1; ++i)
-		{
-			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_FarmersDaughter.bin", ZOMBIE); // MeshData* meshData
-
-			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
-
-			for (auto& gameObject : gameObjects)
-			{
-				gameObject->SetCheckFrustum(true);
-				gameObject->SetStatic(false);
-				AddGameObject(gameObject);
-			}
-
-			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(-77.f, 65.f, 240.f));
-			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
-			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
-			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
-			gameObjects[23]->GetCharacterController()->OnEnable();
-			_zombies.push_back(gameObjects);
-		}
-	}
+	
 #pragma endregion
 
 
@@ -350,11 +312,24 @@ void BattleScene::LoadScene()
 	{
 		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\EnvDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, MESH);
 
 		for (auto& gameObject : gameObjects)
 		{
 			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(false);
+			AddGameObject(gameObject);
+		}
+	}
+
+	{
+		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\EnvDemo2.bin"); // MeshData* meshData
+
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+
+		for (auto& gameObject : gameObjects)
+		{
+			gameObject->SetCheckFrustum(false);
 			gameObject->SetStatic(false);
 			AddGameObject(gameObject);
 		}
@@ -363,7 +338,7 @@ void BattleScene::LoadScene()
 	{
 		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\BldDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, MESH);
 
 		for (auto& gameObject : gameObjects)
 		{
@@ -373,18 +348,18 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, BOX);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, MESH);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
 	{
 		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
@@ -393,7 +368,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(false);
 			AddGameObject(gameObject);
 		}
@@ -406,7 +381,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(true);
 			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
 			AddGameObject(gameObject);
@@ -420,7 +395,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(true);
 			//gameObject->GetTransform()->SetLocalPosition(Vec3(57.f, 62.9, -34.5));
 			AddGameObject(gameObject);
@@ -461,30 +436,30 @@ void BattleScene::LoadScene()
 				Vec3(-125.9, 72, 28.8),
 			};
 
-			//for (int i=0;i<9;++i)
-			//{
-			//	shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-			//	gameObject->SetCheckFrustum(true);
-			//	gameObject->SetStatic(true);
-			//	gameObject->AddComponent(make_shared<Transform>());
-			//	gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
-			//	gameObject->AddComponent(make_shared<Light>());
-			//	gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
-			//	gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
-			//	Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
-			//	gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
+		for (int i = 0; i < 9; ++i)
+		{
+			shared_ptr<GameObject> gameObject = make_shared<GameObject>();
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
+			gameObject->AddComponent(make_shared<Transform>());
+			gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
+			gameObject->AddComponent(make_shared<Light>());
+			gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
+			gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+			Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
+			gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
 
-			//	gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-			//	gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
-			//	gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
-			//	gameObject->GetLight()->SetLightRange(20.f);
-			//	gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
-			//	gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
-			//	++spotLightIndex;
-			//	AddGameObject(gameObject);
-			//	/*if (gameObject->GetName() == L"Sun_1")
-			//		_sunObject = gameObject*/;
-			//}
+			gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+			gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetLightRange(20.f);
+			gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
+			gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
+			++spotLightIndex;
+			AddGameObject(gameObject);
+			/*if (gameObject->GetName() == L"Sun_1")
+				_sunObject = gameObject*/;
+		}
 
 			// 이렇게 해야 맵의 중앙을 봄
 			//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
@@ -498,7 +473,7 @@ void BattleScene::LoadScene()
 			_mainLight->AddComponent(make_shared<Transform>());
 			_mainLight->AddComponent(make_shared<Light>());
 			//_mainLight->GetTransform()->SetLocalPosition(Vec3(-450.f, 950.f, -300.f));
-			_mainLight->GetTransform()->SetLocalPosition(Vec3(-100.f, 400, -300));
+			_mainLight->GetTransform()->SetLocalPosition(Vec3(-100.f, 250, -100));
 
 			_mainLight->GetLight()->SetLightDirection(Vec3(0.1, -0.8, -0.4));
 
@@ -519,19 +494,14 @@ void BattleScene::LoadScene()
 #pragma region Spot Light
 
 #pragma endregion
-
-	}
+	
 }
 
 void BattleScene::Update()
 {
-	/*Vec3 pos = _player[1]->GetTransform()->GetLocalPosition();
-	printf("%f %f %f\n", pos.x, pos.y, pos.z);*/
-
-
 	Scene::Update();
-	//UpdateZombieMove();
 	GET_SINGLE(PhysicsSystem)->Update(DELTA_TIME);
+	PlayerChaseShadowCamera();
 	//UpdateSunOrbit();
 	// 
 	// 맵 중앙 -3.95564, 72.8868, 130.071
@@ -598,33 +568,18 @@ void BattleScene::UpdateSunOrbit()
 	_sunObject->GetTransform()->LookAt(center);
 }
 
-
-void BattleScene::UpdateZombieMove()
+void BattleScene::PlayerChaseShadowCamera()
 {
-	Vec3 playerPosition = _player[0]->GetTransform()->GetLocalPosition();
+	Vec3 playerPos = _player[0]->GetTransform()->GetWorldPosition();
 
-	// 좀비 이동 처리
-	for (auto& zombie : _zombies)
-	{
-		// 좀비의 현재 위치
-		Vec3 zombiePosition = zombie[23]->GetTransform()->GetLocalPosition();
+	Vec3 lightDir = Vec3(_mainLight->GetLight()->GetLightInfo().direction.x, _mainLight->GetLight()->GetLightInfo().direction.y, _mainLight->GetLight()->GetLightInfo().direction.z);
 
-		// 플레이어를 향한 방향 계산
-		Vec3 direction = playerPosition - zombiePosition;
-		if (direction.LengthSquared() > 0.0f)
-			direction.Normalize();
+	float shadowDistance = 100.0f;
+	Vec3 lightPos = playerPos - lightDir * shadowDistance;
 
-		// 이동 속도 설정
-		float zombieSpeed = 2.0f; // 초당 2 유닛 이동
-		Vec3 moveVector = direction * zombieSpeed * DELTA_TIME;
+	_mainLight->GetTransform()->SetLocalPosition(lightPos);
 
-		bool p = zombie[23]->GetCharacterController()->GetIsPushing();
-
-		// CharacterController를 사용하여 이동
-		zombie[23]->GetCharacterController()->Move(moveVector);
-
-		// 좀비가 플레이어를 바라보도록 설정
-		zombie[23]->GetTransform()->LookAt(playerPosition);
-	}
+	_mainLight->GetTransform()->LightLookAt(lightDir);
 }
+
 

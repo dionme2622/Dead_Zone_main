@@ -19,6 +19,9 @@ public:
 
 	void UpdateMouseInput();
 
+	void UpdateCameraPosition();
+
+	void LerpCameraPos();
 private:
 	HWND _hwnd;
 	bool _isLocal;
@@ -41,5 +44,9 @@ private:
 	bool _mouseMove;
 	shared_ptr<Transform> _cameraTransform;
 	Vec3 _prevPosition{ 0,0,0 };
+
+	bool _isAiming = false;
+	Vec3 _targetCameraPos = Vec3(1.2f, 3.03f, -6.65f);
+	float _lerpSpeed = 10.0;
 };
 

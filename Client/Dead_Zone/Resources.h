@@ -17,7 +17,7 @@ public:
 	shared_ptr<T> Load(const wstring& key, const wstring& path);
 
 	template<typename T>
-	bool Add(const wstring& key, shared_ptr<T> object);
+	bool Add(const wstring& key, shared_ptr<T>& object);
 
 	template<typename T>
 	shared_ptr<T> Get(const wstring& Key);
@@ -39,7 +39,7 @@ public:
 		const D3D12_HEAP_PROPERTIES& heapProperty, D3D12_HEAP_FLAGS heapFlags,
 		D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE, Vec4 clearColor = Vec4());
 
-	shared_ptr<Texture> CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource> tex2D);
+	shared_ptr<Texture> CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource>& tex2D);
 
 
 	void AddAnimClip(const wstring& key, shared_ptr<AnimClipInfo> clip);
@@ -75,14 +75,14 @@ inline shared_ptr<T> Resources::Load(const wstring& key, const wstring& path)
 }
 
 template<typename T>
-bool Resources::Add(const wstring& key, shared_ptr<T> object)
+bool Resources::Add(const wstring& key, shared_ptr<T>& object)
 {
 	OBJECT_TYPE objectType = GetObjectType<T>();
 	KeyObjMap& keyObjMap = _resources[static_cast<uint8>(objectType)];
 
-	auto findIt = keyObjMap.find(key);
-	if (findIt != keyObjMap.end())			// 만약 key 값이 이미 있다면 Add 하지 않는다.
-		return false;
+	//auto findIt = keyObjMap.find(key);
+	//if (findIt != keyObjMap.end())			// 만약 key 값이 이미 있다면 Add 하지 않는다.
+	//	return false;
 
 	keyObjMap[key] = object;
 

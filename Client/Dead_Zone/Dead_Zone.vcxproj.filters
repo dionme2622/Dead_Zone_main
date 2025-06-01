@@ -242,6 +242,7 @@
       <Filter>Object\Component</Filter>
     </ClInclude>
     <ClInclude Include="game_header.h">
+    <ClInclude Include="SimpleMath.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="NetworkClient.h">
@@ -249,20 +250,22 @@
     </ClInclude>
     <ClInclude Include="EnginePch.h">
       <Filter>Utils</Filter>
+    <ClInclude Include="Dead_Zone.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="GameFrameWork.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ZombieScript.h">
+      <Filter>Object\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="TestAnimation.h">
+      <Filter>Object\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Dead_Zone.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleMath.cpp">
-      <Filter>Header</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Header</Filter>
-    </ClCompile>
-    <ClCompile Include="GameFrameWork.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="EnginePch.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="CommandQueue.cpp">
       <Filter>Engine</Filter>
@@ -438,8 +441,14 @@
     <ClCompile Include="NetworkClient.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="EnginePch.cpp">
-      <Filter>Utils</Filter>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="GameFrameWork.cpp" />
+    <ClCompile Include="Dead_Zone.cpp" />
+    <ClCompile Include="ZombieScript.cpp">
+      <Filter>Object\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="TestAnimation.cpp">
+      <Filter>Object\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

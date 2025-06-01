@@ -262,8 +262,8 @@ shared_ptr<MeshData> Resources::LoadModelFromBinary(const wstring& path, int typ
 	const char* Filepath = spath.c_str();
 
 	shared_ptr<MeshData> meshData = MeshData::LoadModelFromBinary(Filepath, type);
-	meshData->SetName(key);
-	Add(key, meshData);
+	//meshData->SetName(key);
+	//Add(key, meshData);
 
 	return meshData;
 }
@@ -421,11 +421,46 @@ shared_ptr<class AnimatorController> Resources::LoadAnimatorZombieController()
 	// 1) Controller 생성
 	auto controller = make_shared<AnimatorController>();
 
+	// 2) 파라미터 정의: isWalkingParam (bool)
+	AnimatorParameter isWalkingParam{ "isWalking" , ParameterType::Bool, 1.0 };
+	controller->AddParameter(isWalkingParam);
+
 	// 3) 스테이트 생성 (이름, 클립, 클립 인덱스, 속도, loop)
-	auto idle = make_shared<AnimationState>(L"Zombie_Idle", GetAnimClip(L"Zombie_Idle"), 0, 1.0f, true);
+	auto Idle = make_shared<AnimationState>(L"Zombie_Idle", GetAnimClip(L"Zombie_Idle"), 0, 1.0f, true);
+	auto Walk = make_shared<AnimationState>(L"Zombie_Walk", GetAnimClip(L"Zombie_Walk"), 1, 1.0f, true);
+
+	controller->AddState(Idle);
+	controller->AddState(Walk);
+	int isWalkingIdx = controller->GetParamIndex("isWalking");
+	// 4) Idle → Walk 전이 추가 (Speed > 0.1)
+	{
+		auto t = make_shared<Transition>(Walk);
+		t->AddCondition(
+			/*paramIndex=*/isWalkingIdx,
+			ParameterType::Bool,
+			/*mode=*/       ConditionMode::Equals,
+			/*threshold=*/  1.0f,       // Bool:false → 0.0
+			/*exitTime=*/   0.0f,
+			/*duration=*/   0.1f
+		);
+		Idle->AddTransition(t);
+	}
+
+	// 5) Walk → Idle 전이 추가 (Speed < 0.05)
+	{
+		auto t = make_shared<Transition>(Idle);
+		t->AddCondition(
+			/*paramIndex=*/isWalkingIdx,
+			ParameterType::Bool,
+			/*mode=*/       ConditionMode::Equals,
+			/*threshold=*/  0.0f,       // Bool:false → 0.0
+			/*exitTime=*/   0.0f,
+			/*duration=*/   0.1f
+		);
+		Walk->AddTransition(t);
+	}
 
 
-	controller->AddState(idle);
 	// 6) Entry State 설정
 	controller->SetEntryState(L"Zombie_Idle");
 	return controller;
@@ -451,7 +486,7 @@ shared_ptr<Texture> Resources::CreateTexture(const wstring& name, DXGI_FORMAT fo
 	return texture;
 }
 
-shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource> tex2D)
+shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource>& tex2D)
 {
 	shared_ptr<Texture> texture = make_shared<Texture>();
 	texture->CreateFromResource(tex2D);

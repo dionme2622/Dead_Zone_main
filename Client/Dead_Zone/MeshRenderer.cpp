@@ -57,6 +57,8 @@ void MeshRenderer::Render()
 		if (GetAnimator())
 		{
 			GetAnimator()->PushData();
+			/*auto buffer = GetAnimator()->GetBoneFinalMatrix();
+			buffer->PushGraphicsData(SRV_REGISTER::t7);*/
 			material->SetInt(1, 1);
 		}
 
@@ -103,6 +105,8 @@ void MeshRenderer::Render(shared_ptr<InstancingBuffer>& buffer)			// Instancing 
 		if (GetAnimator())
 		{
 			GetAnimator()->PushData();
+		/*	auto buffer = GetAnimator()->GetBoneFinalMatrix();
+			buffer->PushGraphicsData(SRV_REGISTER::t7);*/
 			material->SetInt(1, 1);
 		}
 
@@ -124,7 +128,20 @@ void MeshRenderer::Render(shared_ptr<InstancingBuffer>& buffer)			// Instancing 
 void MeshRenderer::RenderShadow()
 {
 	GetTransform()->PushShadowData();
-	GET_SINGLE(Resources)->Get<Material>(L"Shadow")->PushGraphicsData();
+	shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Shadow");
+	if (GetAnimator())		// Animator을 갖고 있는 객체라면
+	{
+		GetAnimator()->PushData();
+		material->SetInt(3, 1);
+		/*auto buffer = GetAnimator()->GetBoneFinalMatrix();
+		buffer->PushGraphicsData(SRV_REGISTER::t7);*/
+	}
+	else
+	{
+		material->SetInt(3, 0);
+
+	}
+	material->PushGraphicsData();
 	_mesh->Render();
 }
 

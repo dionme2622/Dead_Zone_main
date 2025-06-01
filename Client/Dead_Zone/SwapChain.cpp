@@ -12,7 +12,7 @@ void SwapChain::Init(const WindowInfo& info, ComPtr<ID3D12Device> device, ComPtr
 void SwapChain::Present()
 {
 	// Present the frame.
-	_swapChain->Present(0, 0);
+	_swapChain->Present(1, 0);
 }
 
 void SwapChain::SwapIndex()
@@ -22,6 +22,8 @@ void SwapChain::SwapIndex()
 
 void SwapChain::CreateSwapChain(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
 {
+	ComPtr<IDXGISwapChain> tmp{};
+
 	// 이전에 만든 정보 날린다
 	_swapChain.Reset();
 
@@ -44,31 +46,25 @@ void SwapChain::CreateSwapChain(const WindowInfo& info, ComPtr<IDXGIFactory> dxg
 	sd.Windowed = info.windowed;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // 전면 후면 버퍼 교체 시 이전 프레임 정보 버림
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	
+	dxgi->CreateSwapChain(cmdQueue.Get(), &sd, &tmp);
 
-	dxgi->CreateSwapChain(cmdQueue.Get(), &sd, &_swapChain);
-
+	tmp.As(&_swapChain);
 }
 
 void SwapChain::ChangeSwapChainState(WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
 {
-	// 1. 현재 모드 토글
-	info.windowed = !info.windowed;
+	BOOL bFullScreenState;
+	_swapChain->GetFullscreenState(&bFullScreenState, nullptr);
+	_swapChain->SetFullscreenState(!bFullScreenState, nullptr);
 
-	// 2. 전체화면/창모드 전환
-	_swapChain->SetFullscreenState(!info.windowed, nullptr);
-
-	
-
-	// 3. 창모드 복귀 시 윈도우 스타일/크기 복원
-	if (info.windowed)
-	{
-		SetWindowLongPtr(info.hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-		RECT wr = { 0,0, static_cast<LONG>(info.width), static_cast<LONG>(info.height) };
-		AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
-		SetWindowPos(info.hwnd, nullptr, 0, 0,
-			wr.right - wr.left, wr.bottom - wr.top,
-			SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
-	}
+	DXGI_MODE_DESC mdesc{};
+	mdesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	mdesc.Width = info.width;
+	mdesc.Height = info.height;
+	mdesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	mdesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	_swapChain->ResizeTarget(&mdesc);
 
 	_swapChain->ResizeBuffers(SWAP_CHAIN_BUFFER_COUNT, info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 }

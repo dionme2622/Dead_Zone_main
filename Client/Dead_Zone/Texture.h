@@ -17,7 +17,7 @@ public:
 	void CreateFromResource(ComPtr<ID3D12Resource> tex2D);
 
 public:
-	ComPtr<ID3D12Resource>		 GetTex2D() { return _tex2D; }
+	ComPtr<ID3D12Resource>&		 GetTex2D() { return _tex2D; }
 	ComPtr<ID3D12DescriptorHeap> GetSRV() { return _srvHeap; }
 	ComPtr<ID3D12DescriptorHeap> GetRTV() { return _rtvHeap; }
 	ComPtr<ID3D12DescriptorHeap> GetDSV() { return _dsvHeap; }

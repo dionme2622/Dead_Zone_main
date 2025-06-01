@@ -228,6 +228,7 @@
     <ClInclude Include="TwoHandedMeleeWeapon.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponManager.h" />
+    <ClInclude Include="ZombieScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationState.cpp" />
@@ -323,6 +324,7 @@
     <ClCompile Include="TwoHandedMeleeWeapon.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponManager.cpp" />
+    <ClCompile Include="ZombieScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dead_Zone.rc" />
