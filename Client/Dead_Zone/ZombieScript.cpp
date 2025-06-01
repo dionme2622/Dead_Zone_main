@@ -50,7 +50,7 @@ void ZombieScript::FinalUpdate()
 		Vec3 dir = closestPos - zPos;
 		dir.Normalize();
 
-		// 이동
+		// 이	동
 		float speed = 2.0f;
 		Vec3  move = dir * speed * DELTA_TIME;
 		GetCharacterController()->Move(move);

@@ -302,9 +302,9 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	
 
-	
+
+
 #pragma endregion
 
 
@@ -420,50 +420,7 @@ void BattleScene::LoadScene()
 		//	//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
 		//}
 
-		{
-			int spotLightIndex = 0;
-
-			// Á¶¸í À§Ä¡
-			array<Vec3, 9> spotLightPos = {
-				Vec3(83, 72, 83),
-				Vec3(59, 72, 83),
-				Vec3(5, 72, 83),
-				Vec3(-70, 72, 83),
-				Vec3(-86, 72, 83),
-				Vec3(-125, 72, 83),
-				Vec3(-86.9, 72, 28.9),
-				Vec3(-70.7, 72, 28.9),
-				Vec3(-125.9, 72, 28.8),
-			};
-
-		for (int i = 0; i < 9; ++i)
-		{
-			shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(true);
-			gameObject->AddComponent(make_shared<Transform>());
-			gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
-			gameObject->AddComponent(make_shared<Light>());
-			gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
-			gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
-			Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
-			gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
-
-			gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-			gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
-			gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
-			gameObject->GetLight()->SetLightRange(20.f);
-			gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
-			gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
-			++spotLightIndex;
-			AddGameObject(gameObject);
-			/*if (gameObject->GetName() == L"Sun_1")
-				_sunObject = gameObject*/;
-		}
-
-			// ÀÌ·¸°Ô ÇØ¾ß ¸ÊÀÇ Áß¾ÓÀ» º½
-			//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
-		}
+		
 #pragma endregion
 
 #pragma region Directional Light
@@ -492,9 +449,53 @@ void BattleScene::LoadScene()
 
 
 #pragma region Spot Light
+		{
+			int spotLightIndex = 0;
 
+			// Á¶¸í À§Ä¡
+			array<Vec3, 9> spotLightPos = {
+				Vec3(83, 72, 83),
+				Vec3(59, 72, 83),
+				Vec3(5, 72, 83),
+				Vec3(-70, 72, 83),
+				Vec3(-86, 72, 83),
+				Vec3(-125, 72, 83),
+				Vec3(-86.9, 72, 28.9),
+				Vec3(-70.7, 72, 28.9),
+				Vec3(-125.9, 72, 28.8),
+			};
+
+			for (int i = 0; i < 9; ++i)
+			{
+				shared_ptr<GameObject> gameObject = make_shared<GameObject>();
+				gameObject->SetCheckFrustum(true);
+				gameObject->SetStatic(true);
+				gameObject->AddComponent(make_shared<Transform>());
+				gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
+				gameObject->AddComponent(make_shared<Light>());
+				gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
+				gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+				Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
+				gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
+
+				gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+				gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+				gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
+				gameObject->GetLight()->SetLightRange(20.f);
+				gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
+				gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
+				++spotLightIndex;
+				AddGameObject(gameObject);
+				/*if (gameObject->GetName() == L"Sun_1")
+					_sunObject = gameObject*/;
+			}
+
+			// ÀÌ·¸°Ô ÇØ¾ß ¸ÊÀÇ Áß¾ÓÀ» º½
+			//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
+		}
 #pragma endregion
-	
+
+	}
 }
 
 void BattleScene::Update()
