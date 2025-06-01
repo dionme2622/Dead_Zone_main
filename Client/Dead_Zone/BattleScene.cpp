@@ -149,7 +149,7 @@ void BattleScene::LoadScene()
 	{
 		//gameObject->SetName(L"FemaleSoldier");
 		gameObject->SetCheckFrustum(false);
-		gameObject->SetStatic(true);
+		gameObject->SetStatic(false);
 		gameObject->GetTransform()->FinalUpdate();
 		AddGameObject(gameObject);
 	}
