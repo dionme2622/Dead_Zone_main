@@ -279,7 +279,7 @@ void BattleScene::LoadScene()
 	uniform_real_distribution<float> distX(-70.0f, 0.0f);
 	uniform_real_distribution<float> distZ(150.0f, 200.0f);
 	{
-		for (int i = 0; i < 40; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
 
