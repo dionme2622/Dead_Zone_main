@@ -509,38 +509,7 @@ void BattleScene::Update()
 	GET_SINGLE(PhysicsSystem)->Update(DELTA_TIME);
 	PlayerChaseShadowCamera();
 	//UpdateSunOrbit();
-	// 
-	// 맵 중앙 -3.95564, 72.8868, 130.071
-	Vec3 pPos = _playerCamera->GetTransform()->GetLocalPosition();
-	//cout << pPos.x << ", " << pPos.y << ", " << pPos.z << ", " << endl;
-
-	/*Vec3 direction = Vec3(0.f, 100.f, 100.f) - _mainLight->GetTransform()->GetLocalPosition();
-	direction.Normalize();
-
-	_mainLight->GetLight()->SetLightDirection(Vec3(direction));*/
-
-
-	//// 카메라 줌
-	//{
-	//	// CTRL 키 입력 처리
-	//	if (INPUT->GetButton(KEY_TYPE::CTRL)) {
-	//		_isAiming = true;
-	//		_targetCameraPos = Vec3(1.01f, 2.23f, -4.25f); // 조준 시 위치
-	//	}
-	//	else if (INPUT->GetButtonUp(KEY_TYPE::CTRL)) {
-	//		_isAiming = false;
-	//		_targetCameraPos = Vec3(1.2f, 3.03f, -6.65f); // 기본 위치
-	//	}
-	//	// 카메라 위치 부드럽게 보간
-	//	Vec3 currentPos = _playerCamera->GetTransform()->GetLocalPosition();
-	//	Vec3 newPos = Vec3::Lerp(currentPos, _targetCameraPos, _lerpSpeed * DELTA_TIME);
-	//	_playerCamera->GetTransform()->SetLocalPosition(newPos);
-
-		// 카메라 부모 유지
-	_playerCamera->GetTransform()->SetParent(_player[_myID - 1]->GetTransform());
 }
-
-
 
 void BattleScene::UpdateSunOrbit()
 {
@@ -576,7 +545,7 @@ void BattleScene::UpdateSunOrbit()
 
 void BattleScene::PlayerChaseShadowCamera()
 {
-	Vec3 playerPos = _player[0]->GetTransform()->GetWorldPosition();
+	Vec3 playerPos = _player[_myID - 1]->GetTransform()->GetWorldPosition();
 
 	Vec3 lightDir = Vec3(_mainLight->GetLight()->GetLightInfo().direction.x, _mainLight->GetLight()->GetLightInfo().direction.y, _mainLight->GetLight()->GetLightInfo().direction.z);
 

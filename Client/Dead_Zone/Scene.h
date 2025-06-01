@@ -19,6 +19,7 @@ public:
 	void Awake();
 	void Start();
 	virtual void Update();
+
 	virtual void LateUpdate();
 	virtual void FinalUpdate();
 

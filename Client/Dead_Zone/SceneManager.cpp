@@ -19,10 +19,12 @@ void SceneManager::Update()
 {
 	if (_activeScene == nullptr)
 		return;
+	
 
 	_activeScene->Update();
-	_activeScene->LateUpdate();
-	_activeScene->FinalUpdate();
+	/*_activeScene->LateUpdate();
+	_activeScene->FinalUpdate();*/
+
 }
 
 // TEMP
