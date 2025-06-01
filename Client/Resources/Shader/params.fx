@@ -73,5 +73,6 @@ Texture2D g_tex_4 : register(t4);
 StructuredBuffer<Matrix> g_mat_bone : register(t7);
 
 SamplerState g_sam_0 : register(s0);
+SamplerComparisonState g_sam_shadow: register(s1);
 
 #endif

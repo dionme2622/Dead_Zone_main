@@ -143,7 +143,7 @@ void Transform::PushShadowData()
 {
 	TransformParams transformParams = {};
 
-	Matrix shadowScale = Matrix::CreateScale(1.001f, 1.001f, 1.001f); 
+	Matrix shadowScale = Matrix::CreateScale(1.0005f, 1.0005f, 1.0005f); 
 	Matrix shadowWorld = shadowScale * _matWorld;
 
 	transformParams.matWorld = shadowWorld;

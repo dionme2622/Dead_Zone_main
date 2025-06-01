@@ -30,8 +30,8 @@ void Engine::Init(const WindowInfo& info)
 	_computeDescHeap->Init();
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 300);
-	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 300);
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256 * 100);
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256 * 100);
 
 	CreateRenderTargetGroups();
 	ResizeWindow(_window.width, _window.height);
@@ -141,12 +141,12 @@ void Engine::CreateRenderTargetGroups()
 		vector<RenderTarget> rtVec(RENDER_TARGET_SHADOW_GROUP_MEMBER_COUNT);
 
 		rtVec[0].target = GET_SINGLE(Resources)->CreateTexture(L"ShadowTarget",
-			DXGI_FORMAT_R32_FLOAT, 4096 * 4, 4096 * 4,
+			DXGI_FORMAT_R32_FLOAT, 2048, 2048,
 			CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
 		shared_ptr<Texture> shadowDepthTexture = GET_SINGLE(Resources)->CreateTexture(L"ShadowDepthStencil",
-			DXGI_FORMAT_D32_FLOAT, 4096 * 4, 4096 * 4,
+			DXGI_FORMAT_D32_FLOAT, 4096 * 2, 4096 * 2,
 			CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 

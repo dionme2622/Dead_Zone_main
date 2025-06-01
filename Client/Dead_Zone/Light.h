@@ -55,6 +55,7 @@ public:
 	void SetSpecular(const Vec3& specular) { _lightInfo.color.specular = specular; }
 
 	void SetLightType(LIGHT_TYPE type);
+	void SetCameraRotationFromDirection(std::shared_ptr<Transform> transform, Vec3 lightDir);
 	void SetLightRange(float range) { _lightInfo.range = range; }
 	void SetLightAngle(float angle) { _lightInfo.angle = angle; }
 
