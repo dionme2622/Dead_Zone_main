@@ -530,7 +530,7 @@ void Resources::CreateDefaultShader()
 		ShaderInfo info =
 		{
 			SHADER_TYPE::DEFERRED,
-			RASTERIZER_TYPE::CULL_NONE
+			RASTERIZER_TYPE::CULL_BACK
 		};
 
 		shared_ptr<Shader> shader = make_shared<Shader>();

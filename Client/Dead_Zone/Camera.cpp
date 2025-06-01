@@ -41,6 +41,9 @@ void Camera::FinalUpdate()
 		_matProjection = ::XMMatrixOrthographicLH(_width * _scale, _height * _scale, _near, _far);
 
 	_frustum.FinalUpdate();
+
+
+
 }
 
 

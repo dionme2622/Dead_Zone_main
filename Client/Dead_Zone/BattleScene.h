@@ -16,7 +16,7 @@ public:
 
 public:
 	void UpdateSunOrbit();
-
+	void PlayerChaseShadowCamera();
 
 
 	static bool isPlayerGrounded;
@@ -41,8 +41,6 @@ private:
 private:
 	vector<vector<shared_ptr<GameObject>>> _zombies;
 
-	bool _isAiming = false;
-	Vec3 _targetCameraPos = Vec3(1.2f, 3.03f, -6.65f);
-	float _lerpSpeed = 10.0;
+
 };
 

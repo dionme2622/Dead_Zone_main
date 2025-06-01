@@ -24,17 +24,14 @@ void Light::FinalUpdate()
 {
 	_lightInfo.position = GetTransform()->GetWorldPosition();
 
-	Vec3 lightDir = Vec3(_lightInfo.direction.x, _lightInfo.direction.y, _lightInfo.direction.z);
+	if (GetLightType() == LIGHT_TYPE::DIRECTIONAL_LIGHT) 
+	{
+		Vec3 lightDir = Vec3(_lightInfo.direction.x, _lightInfo.direction.y, _lightInfo.direction.z);
 
-	_shadowCamera->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+		_shadowCamera->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
-	//_shadowCamera->GetTransform()->SetLocalRotation(Vec3(35.0, 15.01, 0.01));
-
-	SetCameraRotationFromDirection(_shadowCamera->GetTransform(), lightDir);
-
-	//cout << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << endl;
-
-	//Vec3 rot = _shadowCamera->GetTransform()->GetLocalRotation();
+		SetCameraRotationFromDirection(_shadowCamera->GetTransform(), lightDir);
+	}
 
 	_shadowCamera->FinalUpdate();
 }
@@ -92,8 +89,8 @@ void Light::SetLightType(LIGHT_TYPE type)
 		_shadowCamera->GetCamera()->SetScale(1.f);
 		_shadowCamera->GetCamera()->SetNear(50);
 		_shadowCamera->GetCamera()->SetFar(500);
-		_shadowCamera->GetCamera()->SetWidth(200);
-		_shadowCamera->GetCamera()->SetHeight(200);
+		_shadowCamera->GetCamera()->SetWidth(150);
+		_shadowCamera->GetCamera()->SetHeight(150);
 
 		break;
 	case LIGHT_TYPE::POINT_LIGHT:

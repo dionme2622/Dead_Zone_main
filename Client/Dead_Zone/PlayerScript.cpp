@@ -54,9 +54,14 @@ void PlayerScript::FinalUpdate()
 
 void PlayerScript::UpdatePlayerInput()
 {
+	if (_cameraTransform == nullptr)
+		_cameraTransform = GET_SINGLE(SceneManager)->GetActiveScene()->GetMainCamera()->GetTransform();
+
 	UpdateKeyInput();
 	
 	UpdateMouseInput();
+
+	UpdateCameraPosition();
 }
 
 void PlayerScript::UpdateKeyInput()
@@ -153,11 +158,45 @@ void PlayerScript::UpdateMouseInput()
 	}
 }
 
+void PlayerScript::UpdateCameraPosition()
+{
+	if (_cameraTransform == nullptr)
+		_cameraTransform = GET_SINGLE(SceneManager)->GetActiveScene()->GetMainCamera()->GetTransform();
+
+	// CTRL 키 입력 처리
+	if (INPUT->GetButton(KEY_TYPE::CTRL)) {
+		_isAiming = true;
+		_targetCameraPos = Vec3(1.01f, 2.23f, -4.25f); // 조준 시 위치
+	}
+	else if (INPUT->GetButtonUp(KEY_TYPE::CTRL)) {
+		_isAiming = false;
+		_targetCameraPos = Vec3(1.2f, 3.03f, -6.65f); // 기본 위치
+	}
+
+	// 카메라 오프셋 설정
+	float baseXOffset = _targetCameraPos.x; // X축 오프셋
+	float baseYOffset = _targetCameraPos.y; // Y축 오프셋
+	float baseZOffset = _targetCameraPos.z; // Z축 오프셋
+
+	// Pitch에 따른 카메라 위치 계산 (공전 효과)
+	Vec3 cameraOffset(
+		baseXOffset, // X축은 고정
+		baseYOffset * cos(_pitch) + baseZOffset * sin(_pitch), // Y축: Pitch에 따라 조정
+		baseZOffset * cos(_pitch) - baseYOffset * sin(_pitch)  // Z축: Pitch에 따라 조정
+	);
+
+	// 카메라 위치 부드럽게 보간
+	Vec3 currentPos = _cameraTransform->GetLocalPosition();
+	Vec3 newPos = Vec3::Lerp(currentPos, cameraOffset, _lerpSpeed * DELTA_TIME);
+	_cameraTransform->SetLocalPosition(newPos);
+	_cameraTransform->SetLocalRotation(Vec3(-rotation.x, 0.0f, 0.0f));
+}
+
 void PlayerScript::UpdateRotation(float deltaX, float deltaY)
 {
 	// X축 회전 (Pitch, 위아래) - 카메라에만 적용
-	_pitch += deltaY * sensitivity;
-	_pitch = max(-90 * XM_PI / 180, min(90 * XM_PI / 180, _pitch));
+	_pitch -= deltaY * sensitivity;
+	_pitch = max(-60 * XM_PI / 180, min(40 * XM_PI / 180, _pitch));
 
 	// Y축 회전 (Yaw, 좌우) - 캐릭터와 카메라 모두에 적용
 	_yaw += deltaX * sensitivity;
@@ -166,5 +205,19 @@ void PlayerScript::UpdateRotation(float deltaX, float deltaY)
 	rotation.y = _yaw * 50;
 	rotation.z = 0.0;
 
-	GetTransform()->SetLocalRotation(rotation);
+	GetTransform()->SetLocalRotation(Vec3(0.0f, rotation.y, 0.0f));
+
+	// 카메라 오프셋 설정
+	Vec3 baseOffset = _targetCameraPos;   
+
+	// Pitch에 따른 카메라 위치 계산 (공전 효과)
+	Vec3 cameraOffset(
+		baseOffset.x, // X축은 고정
+		baseOffset.y * cos(_pitch) + baseOffset.z * sin(_pitch), // Y축: Pitch에 따라 조정
+		baseOffset.z * cos(_pitch) - baseOffset.y * sin(_pitch)  // Z축: Pitch에 따라 조정
+	);
+
+	// 카메라 위치 설정
+	//_cameraTransform->SetLocalPosition(cameraOffset);
+
 }

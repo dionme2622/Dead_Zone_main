@@ -146,7 +146,7 @@ void BattleScene::LoadScene()
 
 #pragma endregion 
 
-	
+
 #pragma region PlayerCamera
 	{
 		_playerCamera = make_shared<GameObject>();
@@ -208,38 +208,38 @@ void BattleScene::LoadScene()
 
 
 #pragma region UI_Test
-	for (int32 i = 0; i < 6; i++)
-	{
-		shared_ptr<GameObject> obj = make_shared<GameObject>();
-		obj->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
-		obj->AddComponent(make_shared<Transform>());
-		obj->SetCheckFrustum(false);
-		obj->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(-350.f + (i * 120), 250.f, 500.f));
-		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-		{
-			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
-			meshRenderer->SetMesh(mesh);
-		}
-		{
-			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Texture");
+	//for (int32 i = 0; i < 6; i++)
+	//{
+	//	shared_ptr<GameObject> obj = make_shared<GameObject>();
+	//	obj->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+	//	obj->AddComponent(make_shared<Transform>());
+	//	obj->SetCheckFrustum(false);
+	//	obj->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+	//	obj->GetTransform()->SetLocalPosition(Vec3(-350.f + (i * 120), 250.f, 500.f));
+	//	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+	//	{
+	//		shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+	//		meshRenderer->SetMesh(mesh);
+	//	}
+	//	{
+	//		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Texture");
 
-			shared_ptr<Texture> texture;
-			if (i < 3)
-				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->GetRTTexture(i);
-			else if (i < 5)
-				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::LIGHTING)->GetRTTexture(i - 3);
-			else
-				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SHADOW)->GetRTTexture(0);
+	//		shared_ptr<Texture> texture;
+	//		if (i < 3)
+	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->GetRTTexture(i);
+	//		else if (i < 5)
+	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::LIGHTING)->GetRTTexture(i - 3);
+	//		else
+	//			texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SHADOW)->GetRTTexture(0);
 
-			shared_ptr<Material> material = make_shared<Material>();
-			material->SetShader(shader);
-			material->SetTexture(0, texture);
-			meshRenderer->SetMaterial(material);
-		}
-		obj->AddComponent(meshRenderer);
-		AddGameObject(obj);
-	}
+	//		shared_ptr<Material> material = make_shared<Material>();
+	//		material->SetShader(shader);
+	//		material->SetTexture(0, texture);
+	//		meshRenderer->SetMaterial(material);
+	//	}
+	//	obj->AddComponent(meshRenderer);
+	//	AddGameObject(obj);
+	//}
 #pragma endregion
 
 #pragma region ParticleSystem
@@ -332,18 +332,18 @@ void BattleScene::LoadScene()
 		}
 	}
 
-	{
-		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
+	//{
+	//	shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\PropDemo.bin"); // MeshData* meshData
 
-		vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, MESH);
+	//	vector<shared_ptr<GameObject>> gameObjects = scene->Instantiate(OBJECT, MESH);
 
-		for (auto& gameObject : gameObjects)
-		{
-			gameObject->SetCheckFrustum(true);
-			gameObject->SetStatic(false);
-			AddGameObject(gameObject);
-		}
-	}
+	//	for (auto& gameObject : gameObjects)
+	//	{
+	//		gameObject->SetCheckFrustum(true);
+	//		gameObject->SetStatic(false);
+	//		AddGameObject(gameObject);
+	//	}
+	//}
 
 	{
 		shared_ptr<MeshData> scene = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Map\\Wall.bin"); // MeshData* meshData
@@ -400,54 +400,54 @@ void BattleScene::LoadScene()
 				_sunObject = gameObject*/;
 		}
 
+		/* 이렇게 해야 맵의 중앙을 봄
+		_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));*/
+	}
+	
+	{
+		int spotLightIndex = 0;
+
+		// 조명 위치
+		array<Vec3, 9> spotLightPos = {
+			Vec3(83, 72, 83),
+			Vec3(59, 72, 83),
+			Vec3(5, 72, 83),
+			Vec3(-70, 72, 83),
+			Vec3(-86, 72, 83),
+			Vec3(-125, 72, 83),
+			Vec3(-86.9, 72, 28.9),
+			Vec3(-70.7, 72, 28.9),
+			Vec3(-125.9, 72, 28.8),
+		};
+
+		for (int i = 0; i < 9; ++i)
+		{
+			shared_ptr<GameObject> gameObject = make_shared<GameObject>();
+			gameObject->SetCheckFrustum(true);
+			gameObject->SetStatic(true);
+			gameObject->AddComponent(make_shared<Transform>());
+			gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
+			gameObject->AddComponent(make_shared<Light>());
+			gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
+			gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+			Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
+			gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
+
+			gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+			gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
+			gameObject->GetLight()->SetLightRange(20.f);
+			gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
+			gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
+			++spotLightIndex;
+			AddGameObject(gameObject);
+			/*if (gameObject->GetName() == L"Sun_1")
+				_sunObject = gameObject*/;
+		}
+
 		// 이렇게 해야 맵의 중앙을 봄
 		//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
 	}
-
-		{
-			int spotLightIndex = 0;
-
-			// 조명 위치
-			array<Vec3, 9> spotLightPos = {
-				Vec3(83, 72, 83),
-				Vec3(59, 72, 83),
-				Vec3(5, 72, 83),
-				Vec3(-70, 72, 83),
-				Vec3(-86, 72, 83),
-				Vec3(-125, 72, 83),
-				Vec3(-86.9, 72, 28.9),
-				Vec3(-70.7, 72, 28.9),
-				Vec3(-125.9, 72, 28.8),
-			};
-
-			for (int i = 0; i < 9; ++i)
-			{
-				shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-				gameObject->SetCheckFrustum(true);
-				gameObject->SetStatic(true);
-				gameObject->AddComponent(make_shared<Transform>());
-				gameObject->GetTransform()->SetLocalPosition(Vec3(spotLightPos[spotLightIndex]));
-				gameObject->AddComponent(make_shared<Light>());
-				gameObject->GetLight()->SetLightDirection(Vec3(0, -1.0f, 0.f));
-				gameObject->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
-				Vec3 pos = gameObject->GetTransform()->GetLocalPosition();
-				gameObject->GetLight()->GetTransform()->SetLocalPosition(pos);
-
-				gameObject->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-				gameObject->GetLight()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
-				gameObject->GetLight()->SetSpecular(Vec3(0.8f, 0.8f, 0.8f));
-				gameObject->GetLight()->SetLightRange(20.f);
-				gameObject->GetLight()->SetLightAngle(XM_PI / 1.5);
-				gameObject->GetLight()->SetLightIndex(spotLightIndex + 1);
-				++spotLightIndex;
-				AddGameObject(gameObject);
-				/*if (gameObject->GetName() == L"Sun_1")
-					_sunObject = gameObject*/;
-			}
-
-			// 이렇게 해야 맵의 중앙을 봄
-			//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
-		}
 #pragma endregion
 
 #pragma region Directional Light
@@ -485,81 +485,9 @@ void BattleScene::Update()
 {
 	Scene::Update();
 	GET_SINGLE(PhysicsSystem)->Update(DELTA_TIME);
+	PlayerChaseShadowCamera();
 	//UpdateSunOrbit();
-	// 
-	// 맵 중앙 -3.95564, 72.8868, 130.071
-	//Vec3 pPos = _playerCamera->GetTransform()->GetLocalPosition();
-	//cout << pPos.x << ", " << pPos.y << ", " << pPos.z << ", " << endl;
-
-	/*Vec3 direction = Vec3(0.f, 100.f, 100.f) - _mainLight->GetTransform()->GetLocalPosition();
-	direction.Normalize();
-
-	_mainLight->GetLight()->SetLightDirection(Vec3(direction));*/
 	
-
-	//// 카메라 줌
-	//{
-	//	// CTRL 키 입력 처리
-	//	if (INPUT->GetButton(KEY_TYPE::CTRL)) {
-	//		_isAiming = true;
-	//		_targetCameraPos = Vec3(1.01f, 2.23f, -4.25f); // 조준 시 위치
-	//	}
-	//	else if (INPUT->GetButtonUp(KEY_TYPE::CTRL)) {
-	//		_isAiming = false;
-	//		_targetCameraPos = Vec3(1.2f, 3.03f, -6.65f); // 기본 위치
-	//	}
-	//	// 카메라 위치 부드럽게 보간
-	//	Vec3 currentPos = _playerCamera->GetTransform()->GetLocalPosition();
-	//	Vec3 newPos = Vec3::Lerp(currentPos, _targetCameraPos, _lerpSpeed * DELTA_TIME);
-	//	_playerCamera->GetTransform()->SetLocalPosition(newPos);
-
-	//	// 카메라 부모 유지
-	//	_playerCamera->GetTransform()->SetParent(_player[0]->GetTransform());
-	//}
-	/*Vec3 pos = _playerCamera->GetTransform()->GetLocalPosition();
-	cout << pos.x << ", " << pos.y << ", " << pos.z << endl;*/
-
-
-	{
-		Vec3 pos = _mainLight->GetTransform()->GetLocalPosition();
-		if (INPUT->GetButton(KEY_TYPE::UP)) {
-			pos.z += 100.0f * DELTA_TIME; // 위로 이동
-		}
-		else if (INPUT->GetButton(KEY_TYPE::DOWN)) {
-			pos.z -= 100.0f * DELTA_TIME; // 아래로 이동
-		}
-		else if (INPUT->GetButton(KEY_TYPE::LEFT)) {
-			pos.x -= 100.0f * DELTA_TIME; // 왼쪽으로 이동
-		}
-		else if (INPUT->GetButton(KEY_TYPE::RIGHT)) {
-			pos.x += 100.0f * DELTA_TIME; // 오른쪽으로 이동
-		}
-		else if (INPUT->GetButton(KEY_TYPE::CTRL)) {
-			pos.y -= 5.0f * DELTA_TIME; // 오른쪽으로 이동
-		}
-		_mainLight->GetLight()->GetTransform()->SetLocalPosition(Vec3(pos));
-	}
-	
-	// [추가] _mainLight가 항상 플레이어 근처에서 섀도우카메라를 찍도록 위치 갱신
-	if (_mainLight && !_player.empty())
-	{
-		// 1. 플레이어 위치와 Forward 구하기
-		Vec3 playerPos = _player[0]->GetTransform()->GetWorldPosition();
-
-		// 2. 라이트 방향 구하기 (이미 정규화되어 있다고 가정)
-		Vec3 lightDir = Vec3(_mainLight->GetLight()->GetLightInfo().direction.x, _mainLight->GetLight()->GetLightInfo().direction.y, _mainLight->GetLight()->GetLightInfo().direction.z);
-
-		// 3. 라이트 위치 계산 (플레이어에서 라이트 방향 반대쪽으로 일정 거리)
-		float shadowDistance = 100.0f; // 필요에 따라 조정
-		Vec3 lightPos = playerPos - lightDir * shadowDistance;
-
-		// 4. 라이트 위치 갱신
-		_mainLight->GetTransform()->SetLocalPosition(lightPos);
-
-		// 5. 라이트가 플레이어를 바라보도록 회전 (섀도우카메라 방향 일치)
-		_mainLight->GetTransform()->LightLookAt(lightDir);
-	}
-
 }
 
 void BattleScene::UpdateSunOrbit()
@@ -592,6 +520,20 @@ void BattleScene::UpdateSunOrbit()
 
 	// _sunObject가 중심을 바라보도록 설정 (맵 중앙: 0, 100, 100)
 	_sunObject->GetTransform()->LookAt(center);
+}
+
+void BattleScene::PlayerChaseShadowCamera()
+{
+	Vec3 playerPos = _player[0]->GetTransform()->GetWorldPosition();
+
+	Vec3 lightDir = Vec3(_mainLight->GetLight()->GetLightInfo().direction.x, _mainLight->GetLight()->GetLightInfo().direction.y, _mainLight->GetLight()->GetLightInfo().direction.z);
+
+	float shadowDistance = 100.0f;
+	Vec3 lightPos = playerPos - lightDir * shadowDistance;
+
+	_mainLight->GetTransform()->SetLocalPosition(lightPos);
+
+	_mainLight->GetTransform()->LightLookAt(lightDir);
 }
 
 
