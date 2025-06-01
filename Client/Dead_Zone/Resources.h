@@ -80,9 +80,9 @@ bool Resources::Add(const wstring& key, shared_ptr<T>& object)
 	OBJECT_TYPE objectType = GetObjectType<T>();
 	KeyObjMap& keyObjMap = _resources[static_cast<uint8>(objectType)];
 
-	//auto findIt = keyObjMap.find(key);
-	//if (findIt != keyObjMap.end())			// 만약 key 값이 이미 있다면 Add 하지 않는다.
-	//	return false;
+	auto findIt = keyObjMap.find(key);
+	if (findIt != keyObjMap.end())			// 만약 key 값이 이미 있다면 Add 하지 않는다.
+		return false;
 
 	keyObjMap[key] = object;
 

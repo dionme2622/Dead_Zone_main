@@ -40,8 +40,8 @@ shared_ptr<MeshData> MeshData::LoadModelFromBinary(const char* path, int type)
 			GET_SINGLE(Resources)->Add<Mesh>(mesh->GetName(), mesh);
 
 			shared_ptr<MeshCollider> meshCollider = make_shared<MeshCollider>(loader.GetMesh(i).btvertices, loader.GetMesh(i).indices[0], false);
-			info.mesh = GET_SINGLE(Resources)->Get<Mesh>(mesh->GetName());
-			//info.mesh = mesh;
+			if(type == ZOMBIE) info.mesh = mesh;
+			else info.mesh = GET_SINGLE(Resources)->Get<Mesh>(mesh->GetName());
 			info.meshCollider = meshCollider;
 		}
 
