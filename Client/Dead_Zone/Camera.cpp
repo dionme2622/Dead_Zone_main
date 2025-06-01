@@ -74,17 +74,58 @@ void Camera::SortGameObject()
 			Vec3 scale = gameObject->GetTransform()->GetLocalScale();
 			if (auto boxCollider = gameObject->GetBoxCollier())
 			{
-				float scaledExtentX = boxCollider->_extents.x;
-				float scaledExtentY = boxCollider->_extents.y;
-				float scaledExtentZ = boxCollider->_extents.z;
+				/*cout << boxCollider->GetCenter().x << boxCollider->GetCenter().y << boxCollider->GetCenter().z << endl;
+				cout << gameObject->GetTransform()->GetWorldPosition().x << gameObject->GetTransform()->GetWorldPosition().y << gameObject->GetTransform()->GetWorldPosition().z << endl;
+				cout << endl;*/
 
-				if (_frustum.ContainsSphere(
-					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 15) == false)
+
+				//float scaledExtentX = boxCollider->_extents.x;
+				//float scaledExtentY = boxCollider->_extents.y;
+				//float scaledExtentZ = boxCollider->_extents.z;
+
+				//float maxExtent = max(max(scaledExtentX, scaledExtentY), scaledExtentZ);
+
+				//// 제곱해서 거리 계산
+				//float radius = sqrt(pow(maxExtent, 2) * 2); // 여유를 두기 위해 20을 더함);
+				//if (_frustum.ContainsSphere(
+				//	boxCollider->GetCenter(),
+				//	radius/* + 15*/) == false)
+				//{
+				//	continue;
+				//}
+
+
+				/*Vec3 center = boxCollider->GetCenter();
+				Vec3 extents = boxCollider->_extents;
+				Matrix worldMat = gameObject->GetTransform()->GetLocalToWorldMatrix();
+
+				std::vector<Vec3> corners;
+				for (int x = -1; x <= 1; x += 2)
+					for (int y = -1; y <= 1; y += 2)
+						for (int z = -1; z <= 1; z += 2)
+						{
+							Vec3 localCorner = center + Vec3(extents.x * x, extents.y * y, extents.z * z);
+							Vec3 worldCorner = XMVector3TransformCoord(localCorner, worldMat);
+							corners.push_back(worldCorner);
+						}
+
+				Vec3 min = corners[0], max = corners[0];
+				for (const auto& c : corners)
 				{
-					continue;
+					min = Vec3::Min(min, c);
+					max = Vec3::Max(max, c);
 				}
+
+				Vec3 aabbCenter = (min + max) * 0.5f;
+				float aabbRadius = ((max - min) * 0.5f).Length();
+
+				if (_frustum.ContainsSphere(aabbCenter, aabbRadius) == false)
+					continue;*/
+
+				if (_frustum.ContainsSphere(boxCollider->_worldBoundingCenter, boxCollider->_worldBoundingRadius) == false)
+					continue;
 			}
+
 		}
 
 		if (gameObject->GetMeshRenderer())
@@ -130,31 +171,10 @@ void Camera::SortShadowObject()
 
 		if (gameObject->GetCheckFrustum())
 		{
-			/*shared_ptr<BaseCollider> baseCollider = gameObject->GetCollider();
-			shared_ptr<BoxCollider> boxCollider = dynamic_pointer_cast<BoxCollider>(baseCollider);*/
-
-			/*if (boxCollider) {
-
-				Vec3 scale = gameObject->GetTransform()->GetLocalScale();
-				float scaledExtentX = boxCollider->_extents.x * scale.x;
-				float scaledExtentY = boxCollider->_extents.y * scale.y;
-				float scaledExtentZ = boxCollider->_extents.z * scale.z;
-
-				if (_frustum.ContainsSphere(
-					gameObject->GetTransform()->GetWorldPosition(),
-					max(max(scaledExtentX, scaledExtentY), scaledExtentZ) + 20) == false)
-				{
-					continue;
-				}
-			}*/
-
-			Vec3 scale = gameObject->GetTransform()->GetLocalScale();
-
-			if (_frustum.ContainsSphere(
-				gameObject->GetTransform()->GetWorldPosition(),
-				max(max(scale.x, scale.y), scale.z) + 20) == false)
+			if (auto boxCollider = gameObject->GetBoxCollier())
 			{
-				continue;
+				if (_frustum.ContainsSphere(boxCollider->_worldBoundingCenter, boxCollider->_worldBoundingRadius) == false)
+					continue;
 			}
 		}
 		_vecShadow.emplace_back(gameObject);

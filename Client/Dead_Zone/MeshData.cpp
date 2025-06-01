@@ -80,7 +80,7 @@ shared_ptr<MeshData> MeshData::LoadModelFromBinary(const char* path, int type)
 vector<shared_ptr<GameObject>> MeshData::Instantiate(int type, int collidertype)
 {
 	vector<shared_ptr<GameObject>> v;
-
+	
 	for (MeshRenderInfo& info : _meshRenders)
 	{
 		shared_ptr<GameObject> gameObject = make_shared<GameObject>();

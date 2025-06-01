@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include "Animator.h"
 #include "RigidBody.h"
+#include "BoxCollider.h"
+
 ZombieScript::ZombieScript(vector<shared_ptr<GameObject>> player)
 {
 	_player = player;
@@ -69,5 +71,9 @@ void ZombieScript::FinalUpdate()
 		// 예: Run 애니메이션 재생
 		GetAnimator()->SetBool("isWalking", true);
 	}
+
+
+	if (auto box = GetGameObject()->GetBoxCollier())
+		box->UpdateWorldBounds(GetTransform()->GetLocalToWorldMatrix());
 }
 

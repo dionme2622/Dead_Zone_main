@@ -76,7 +76,8 @@ void PlayerScript::FinalUpdate()
 		ApplyNetworkState(state.position, state.rotationEuler, state.equippedWeapon);*/
 	}
 
-
+	if (auto box = GetGameObject()->GetBoxCollier())
+		box->UpdateWorldBounds(GetTransform()->GetLocalToWorldMatrix());
 }
 
 

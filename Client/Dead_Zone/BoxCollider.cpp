@@ -118,4 +118,31 @@ shared_ptr<Mesh> BoxCollider::GetColliderMesh()
 	return mesh;
 	
 }
+
+void BoxCollider::UpdateWorldBounds(const Matrix& worldMat)
+{
+	Vec3 center = GetCenter();
+	Vec3 extents = _extents;
+
+	std::vector<Vec3> corners;
+	for (int x = -1; x <= 1; x += 2)
+		for (int y = -1; y <= 1; y += 2)
+			for (int z = -1; z <= 1; z += 2)
+			{
+				Vec3 localCorner = center + Vec3(extents.x * x, extents.y * y, extents.z * z);
+				Vec3 worldCorner = XMVector3TransformCoord(localCorner, worldMat);
+				corners.push_back(worldCorner);
+			}
+
+	_worldAABBMin = corners[0];
+	_worldAABBMax = corners[0];
+	for (const auto& c : corners)
+	{
+		_worldAABBMin = Vec3::Min(_worldAABBMin, c);
+		_worldAABBMax = Vec3::Max(_worldAABBMax, c);
+	}
+
+	_worldBoundingCenter = (_worldAABBMin + _worldAABBMax) * 0.5f;
+	_worldBoundingRadius = ((_worldAABBMax - _worldAABBMin) * 0.5f).Length();
+}
 	

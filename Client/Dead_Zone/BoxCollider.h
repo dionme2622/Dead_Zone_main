@@ -21,7 +21,7 @@ public:
 	void SetCenter(Vec3 center) { _center = center; }
 	void SetExtents(Vec3 extents) { _extents = extents; }
 
-	
+	void UpdateWorldBounds(const Matrix& worldMat);
 
 public:
 	Vec3				_center		= { 0.f, 0.f, 0.f };
@@ -29,5 +29,10 @@ public:
 
 	shared_ptr<btBoxShape>			_shape;
 	shared_ptr<btCompoundShape>		_compound;
+
+	Vec3 _worldAABBMin;
+	Vec3 _worldAABBMax;
+	Vec3 _worldBoundingCenter;
+	float _worldBoundingRadius;
 };
 

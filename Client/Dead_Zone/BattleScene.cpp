@@ -148,7 +148,7 @@ void BattleScene::LoadScene()
 	for (auto& gameObject : FemaleHero)
 	{
 		//gameObject->SetName(L"FemaleSoldier");
-		gameObject->SetCheckFrustum(false);
+		gameObject->SetCheckFrustum(true);
 		gameObject->SetStatic(false);
 		gameObject->GetTransform()->FinalUpdate();
 		AddGameObject(gameObject);
@@ -329,7 +329,7 @@ void BattleScene::LoadScene()
 
 		for (auto& gameObject : gameObjects)
 		{
-			gameObject->SetCheckFrustum(false);
+			gameObject->SetCheckFrustum(true);
 			gameObject->SetStatic(false);
 			AddGameObject(gameObject);
 		}
@@ -493,8 +493,13 @@ void BattleScene::LoadScene()
 			// ÀÌ·¸°Ô ÇØ¾ß ¸ÊÀÇ Áß¾ÓÀ» º½
 			//_sunObject->GetTransform()->SetLocalRotation(Vec3(-45, 225, 0));
 		}
+	}
 #pragma endregion
 
+	for (auto& obj : GetGameObjects())
+	{
+		if (auto box = obj->GetBoxCollier())
+			box->UpdateWorldBounds(obj->GetTransform()->GetLocalMatrix());
 	}
 }
 
