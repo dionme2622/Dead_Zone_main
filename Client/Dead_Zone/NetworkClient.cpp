@@ -11,6 +11,8 @@ std::mutex g_posMutex;
 
 bool ConnectAndLogin()
 {
+    static std::atomic<int> next_id{ 1 };
+
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         std::cout << "WSAStartup 실패\n";
@@ -35,13 +37,13 @@ bool ConnectAndLogin()
         return false;
     }
 
-    std::cout << "Connected to the server.\n";
+    //std::cout << "Connected to the server.\n";
 
     ctos_packet_login login{};
     login.size = sizeof(login);
     login.type = CToS_PLAYER_LOGIN;
-    std::cout << "ID : ";
-    std::cin.getline(login.name, MAX_ID_LENGTH);
+    int my_id = next_id.fetch_add(1);
+    snprintf(login.name, MAX_ID_LENGTH, "%d", my_id);
     send(sock, reinterpret_cast<char*>(&login), sizeof(login), 0);
 
     return true;
@@ -75,20 +77,19 @@ void recv_thread(SOCKET sock) {
             switch (type) {
             case SToC_PLAYER_INFO: {
                 auto* p = reinterpret_cast<stoc_packet_player_info*>(&buffer[offset]);
-                std::cout << "[MY INFORMATION] ID: " << p->id << " 위치: (" << p->x << ", " << p->y << ", " << p->z << ")\n";
+                //std::cout << "[MY INFORMATION] ID: " << p->id << " 위치: (" << p->x << ", " << p->y << ", " << p->z << ")\n";
                 g_myInfo = *p;
                 g_receivedMyInfo = true;
                 break;
             }
             case SToC_PLAYER_ENTER: {
                 auto* p = reinterpret_cast<stoc_packet_enter*>(&buffer[offset]);
-                std::cout << "[ENTER] ID: " << p->id << " 이름: " << p->name
-                    << " 위치: (" << p->x << ", " << p->y << ", " << p->z << ")\n";
+                //std::cout << "[ENTER] ID: " << p->id << " 이름: " << p->name << " 위치: (" << p->x << ", " << p->y << ", " << p->z << ")\n";
                 break;
             }
             case SToC_PLAYER_LEAVE: {
                 auto* p = reinterpret_cast<stoc_packet_leave*>(&buffer[offset]);
-                std::cout << "[LEAVE] ID: " << p->id << "\n";
+                //std::cout << "[LEAVE] ID: " << p->id << "\n";
                 break;
             }
             case SToC_ALL_POSITION: {
