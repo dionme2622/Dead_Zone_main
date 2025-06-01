@@ -9,6 +9,8 @@
 ZombieScript::ZombieScript(vector<shared_ptr<GameObject>> player)
 {
 	_player = player;
+	_speed = 1.0f;
+
 }
 
 ZombieScript::~ZombieScript()
@@ -42,17 +44,20 @@ void ZombieScript::FinalUpdate()
 	if (minDistSq > detectionRangeSq)
 	{
 		// 예: Idle 애니메이션 재생
-		//printf("Idle\n");
+		_speed = 0.f;
+		Vec3 dir = closestPos - zPos;
+		dir.Normalize();
+		Vec3  move = dir * _speed * DELTA_TIME;
+		GetCharacterController()->Move(move);
 		GetAnimator()->SetBool("isWalking", false);
 	}
 	else {
 		// --- 3) 범위 내면 추격
 		Vec3 dir = closestPos - zPos;
 		dir.Normalize();
-
+		_speed = 1.0f;
 		// 이	동
-		float speed = 2.0f;
-		Vec3  move = dir * speed * DELTA_TIME;
+		Vec3  move = dir * _speed * DELTA_TIME;
 		GetCharacterController()->Move(move);
 
 		// 회전 (Yaw)
@@ -62,8 +67,6 @@ void ZombieScript::FinalUpdate()
 		trans->SetLocalRotation(rot);
 
 		// 예: Run 애니메이션 재생
-		//printf("Walking\n");
-
 		GetAnimator()->SetBool("isWalking", true);
 	}
 }

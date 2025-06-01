@@ -14,5 +14,7 @@ public:
 
 private:
 	vector<shared_ptr<GameObject>>		_player;
+
+	float _speed = 1.0f;
 };
 
