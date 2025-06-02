@@ -287,7 +287,7 @@ void BattleScene::LoadScene()
 
 			for (auto& gameObject : gameObjects)
 			{
-				gameObject->SetCheckFrustum(true);
+				gameObject->SetCheckFrustum(false);
 				gameObject->SetStatic(false);
 				AddGameObject(gameObject);
 			}

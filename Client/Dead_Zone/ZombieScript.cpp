@@ -73,7 +73,7 @@ void ZombieScript::FinalUpdate()
 	}
 
 
-	if (auto box = GetGameObject()->GetBoxCollier())
-		box->UpdateWorldBounds(GetTransform()->GetLocalToWorldMatrix());
+	/*if (auto box = GetGameObject()->GetBoxCollier())
+		box->UpdateWorldBounds(GetTransform()->GetLocalToWorldMatrix());*/
 }
 

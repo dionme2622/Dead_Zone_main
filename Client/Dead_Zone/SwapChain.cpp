@@ -66,6 +66,8 @@ void SwapChain::ChangeSwapChainState(WindowInfo& info, ComPtr<IDXGIFactory> dxgi
 	mdesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	_swapChain->ResizeTarget(&mdesc);
 
+
+
 	_swapChain->ResizeBuffers(SWAP_CHAIN_BUFFER_COUNT, info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 }
 

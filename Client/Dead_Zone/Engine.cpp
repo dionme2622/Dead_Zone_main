@@ -243,11 +243,10 @@ void Engine::ToggleFullscreen()
 	
     CreateRenderTargetGroups();
 
-
 	_graphicsCmdQueue->FlushResourceCommandQueue();
-	_computeCmdQueue->FlushComputeCommandQueue();
-
 	_graphicsCmdQueue->WaitSync();
+
+	_computeCmdQueue->FlushComputeCommandQueue();
 	_computeCmdQueue->WaitSync();
 }
 

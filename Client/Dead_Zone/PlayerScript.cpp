@@ -197,11 +197,30 @@ void PlayerScript::UpdateKeyInput()
 	//_prevPosition = currentPos;
 }
 
+void SetCursorVisible(bool visible)
+{
+	// 현재 커서 표시 상태를 얻음
+	CURSORINFO ci = { sizeof(CURSORINFO) };
+	GetCursorInfo(&ci);
+	BOOL isVisible = (ci.flags & CURSOR_SHOWING);
+
+	if (visible && !isVisible)
+	{
+		// 커서가 안 보이면 보이게 될 때까지 ShowCursor(true) 반복
+		while (ShowCursor(TRUE) < 0);
+	}
+	else if (!visible && isVisible)
+	{
+		// 커서가 보이면 안 보이게 될 때까지 ShowCursor(false) 반복
+		while (ShowCursor(FALSE) >= 0);
+	}
+}
+
 void PlayerScript::UpdateMouseInput()
 {
 	if (INPUT->GetButtonDown(KEY_TYPE::Q)) {
 		_mouseMove = !_mouseMove;
-		ShowCursor(_mouseMove);
+		SetCursorVisible(_mouseMove);
 	}
 
 	POINT mousePos;

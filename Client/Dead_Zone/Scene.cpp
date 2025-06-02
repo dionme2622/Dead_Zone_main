@@ -27,11 +27,11 @@ void Scene::Update()
 {
 	for (const shared_ptr<GameObject>& gameObject : _gameObjects)
 	{
-		gameObject->Update();
-		if (gameObject) gameObject->LateUpdate();
-		if (gameObject) gameObject->FinalUpdate();
-
-
+		if (gameObject) {
+			gameObject->Update();
+			gameObject->LateUpdate();
+			gameObject->FinalUpdate();
+		}
 	}
 }
 
