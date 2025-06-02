@@ -206,12 +206,10 @@ void SetCursorVisible(bool visible)
 
 	if (visible && !isVisible)
 	{
-		// 커서가 안 보이면 보이게 될 때까지 ShowCursor(true) 반복
 		while (ShowCursor(TRUE) < 0);
 	}
 	else if (!visible && isVisible)
 	{
-		// 커서가 보이면 안 보이게 될 때까지 ShowCursor(false) 반복
 		while (ShowCursor(FALSE) >= 0);
 	}
 }

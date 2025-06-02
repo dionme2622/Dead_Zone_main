@@ -279,9 +279,105 @@ void BattleScene::LoadScene()
 	uniform_real_distribution<float> distX(-70.0f, 0.0f);
 	uniform_real_distribution<float> distZ(150.0f, 200.0f);
 	{
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 3; ++i)
 		{
 			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Cheerleader.bin", ZOMBIE); // MeshData* meshData
+
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(false);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
+
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(distX(rng), 65.0f, distZ(rng)));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+			_zombies.push_back(gameObjects);
+		}
+	}
+
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_FarmersDaughter.bin", ZOMBIE); // MeshData* meshData
+
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(false);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
+
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(distX(rng), 65.0f, distZ(rng)));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+			_zombies.push_back(gameObjects);
+		}
+	}
+
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Farmer.bin", ZOMBIE); // MeshData* meshData
+
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(false);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
+
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(distX(rng), 65.0f, distZ(rng)));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+			_zombies.push_back(gameObjects);
+		}
+	}
+
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_Firefighter.bin", ZOMBIE); // MeshData* meshData
+
+			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
+
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetCheckFrustum(false);
+				gameObject->SetStatic(false);
+				AddGameObject(gameObject);
+			}
+
+			gameObjects[23]->GetTransform()->SetLocalPosition(Vec3(distX(rng), 65.0f, distZ(rng)));
+			gameObjects[23]->AddComponent(make_shared<CharacterController>(gameObjects[23], 0.5, 3.0, 0.3f));
+			gameObjects[23]->GetCharacterController()->SetIsPushing(false);
+			gameObjects[23]->AddComponent(make_shared<PlayerStats>());
+			gameObjects[23]->GetCharacterController()->OnEnable();
+			gameObjects[23]->AddComponent(make_shared<ZombieScript>(_player));
+			_zombies.push_back(gameObjects);
+		}
+	}
+
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			shared_ptr<MeshData> Zombie = GET_SINGLE(Resources)->LoadModelFromBinary(L"..\\Resources\\Model\\Zombie\\SA_Zombie_FootballPlayer.bin", ZOMBIE); // MeshData* meshData
 
 			vector<shared_ptr<GameObject>> gameObjects = Zombie->Instantiate(ZOMBIE);
 
