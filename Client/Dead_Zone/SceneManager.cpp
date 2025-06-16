@@ -22,8 +22,8 @@ void SceneManager::Update()
 	
 
 	_activeScene->Update();
-	/*_activeScene->LateUpdate();
-	_activeScene->FinalUpdate();*/
+	_activeScene->LateUpdate();
+	_activeScene->FinalUpdate();
 
 }
 
@@ -41,6 +41,10 @@ void SceneManager::LoadScene(SCENETYPE sceneName)
 	case SCENETYPE::ELOBBYSCENE:
 		_lobbyScene = make_shared<LobbyScene>();
 		_activeScene = static_pointer_cast<Scene>(_lobbyScene);
+		break;
+	case SCENETYPE::ESELECTROOMSCENE:
+		_roomSelectScene = make_shared<RoomSelectScene>();
+		_activeScene = static_pointer_cast<Scene>(_roomSelectScene);
 		break;
 	case SCENETYPE::EBATTLESCENE:
 		_battleScene = make_shared<BattleScene>();

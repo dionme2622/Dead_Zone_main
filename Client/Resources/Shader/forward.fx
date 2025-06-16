@@ -105,6 +105,9 @@ float4 PS_Tex(VS_TEX_OUT input) : SV_Target
     return color;
 }
 
+
+
+
 VS_TEX_OUT VS_UI(VS_TEX_IN input)
 {
     VS_TEX_OUT output = (VS_TEX_OUT) 0;
@@ -121,12 +124,138 @@ float4 PS_UI(VS_TEX_OUT input) : SV_Target
     if (g_tex_on_0)
         color = g_tex_0.Sample(g_sam_0, input.uv);
         
-    if (color.a == 0.f)
+    if (color.a <= 0.01f)
         discard;
 
     
     return color;
 }
+
+
+VS_TEX_OUT VS_Number_UI(VS_TEX_IN input)
+{
+    VS_TEX_OUT output = (VS_TEX_OUT) 0;
+    output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+    output.uv = input.uv;
+    return output;
+}
+
+float4 PS_Number_UI(VS_TEX_OUT input) : SV_Target
+{
+    // 숫자 인덱스 (0~9)
+    int number = g_int_1;
+    // 한 숫자가 차지하는 UV 폭
+    float digitWidth = 1.0 / 10.0;
+
+    // 현재 사각형의 uv를 숫자 영역으로 변환
+    float2 uv = input.uv;
+    uv.x = uv.x * digitWidth + number * digitWidth;
+
+    float4 color = float4(1.f, 1.f, 1.f, 1.f);
+    if (g_tex_on_0)
+        color = g_tex_0.Sample(g_sam_0, uv);
+
+    //if (color.a <= 0.01f)
+    //    discard;
+
+    return color;
+}
+
+
+VS_TEX_OUT VS_Background_UI(VS_TEX_IN input)
+{
+    VS_TEX_OUT output = (VS_TEX_OUT) 0;
+
+    output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+
+    // 시간에 따라 UV x 좌표를 이동 (왼쪽으로 움직이게)
+    output.uv = input.uv;
+
+    output.uv.x += g_float_1 * 0.1f; // 속도 조절
+
+    return output;
+}
+
+float4 PS_Background_UI(VS_TEX_OUT input) : SV_Target
+{
+    float4 color = g_tex_0.Sample(g_sam_0, input.uv); // wrap 모드여야 함
+
+    return color;
+}
+
+
+
+VS_TEX_OUT VS_Button_UI(VS_TEX_IN input)
+{
+    VS_TEX_OUT output = (VS_TEX_OUT) 0;
+
+    output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+    output.uv = input.uv;
+
+    return output;
+}
+
+float4 PS_Button_UI(VS_TEX_OUT input) : SV_Target
+{
+    float4 color = g_tex_0.Sample(g_sam_0, input.uv);
+
+    if (color.a <= 0.01)
+        discard;
+    
+    if (g_int_1 == 1)
+    {
+    
+        float glowIntensity = 0.9;
+        float glowRadius = 0.5;
+        
+        float4 glow = float4(0.0, 0.0, 0.0, 0.0);
+        float samples = 1.0;
+        glow += g_tex_0.Sample(g_sam_0, input.uv + float2(glowRadius, 0.0));
+        glow += g_tex_0.Sample(g_sam_0, input.uv + float2(-glowRadius, 0.0));
+        glow += g_tex_0.Sample(g_sam_0, input.uv + float2(0.0, glowRadius));
+        glow += g_tex_0.Sample(g_sam_0, input.uv + float2(0.0, -glowRadius));
+        samples += 4.0;
+        
+        glow /= samples;
+        
+        // Apply grayscale to the base color
+        float grayscale = dot(color.rgb, float3(0.299, 0.587, 0.114));
+        color.rgb = float3(grayscale, grayscale, grayscale);
+        
+        // Apply grayscale to the glow color
+        float glowGrayscale = dot(glow.rgb, float3(0.299, 0.587, 0.114));
+        glow.rgb = float3(glowGrayscale, glowGrayscale, glowGrayscale);
+        
+        // Combine grayscale color with grayscale glow
+        color.rgb = color.rgb - glow.rgb * glowIntensity;
+        color.a = max(color.a, glow.a);
+        
+    }
+    return color;
+}
+
+VS_TEX_OUT VS_Transparent_UI(VS_TEX_IN input)
+{
+    VS_TEX_OUT output = (VS_TEX_OUT) 0;
+
+    output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+    output.uv = input.uv;
+
+    return output;
+}
+
+float4 PS_Transparent_UI(VS_TEX_OUT input) : SV_Target
+{
+    float4 color = g_tex_0.Sample(g_sam_0, input.uv);
+    
+    color.a = 0.7;
+    
+    return color;
+}
+
+
+
+
 
 struct VS_COLLIDER_IN
 {

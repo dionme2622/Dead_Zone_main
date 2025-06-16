@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "LobbyScene.h"
+#include "RoomSelectScene.h"
 #include "BattleScene.h"
 
 class Scene;
@@ -16,6 +17,7 @@ class Player;
 enum class SCENETYPE : uint8
 {
 	ELOBBYSCENE,
+	ESELECTROOMSCENE,
 	EBATTLESCENE,
 
 	END
@@ -49,6 +51,7 @@ public:
 
 private:
 	shared_ptr<LobbyScene> _lobbyScene = make_shared<LobbyScene>();
+	shared_ptr<RoomSelectScene> _roomSelectScene = make_shared<RoomSelectScene>();
 	shared_ptr<BattleScene> _battleScene = make_shared<BattleScene>();
 
 private:

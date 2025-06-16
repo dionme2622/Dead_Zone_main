@@ -6,18 +6,18 @@
 
 void GameFrameWork::Init(const WindowInfo& info)
 {
-	if (!ConnectAndLogin()) {
+	/*if (!ConnectAndLogin()) {
 		std::cout << "서버 연결 또는 로그인 실패\n";
 		return;
 	}
-	std::thread(recv_thread, sock).detach();
+	std::thread(recv_thread, sock).detach();*/
 
 
 	// DirectX12 장치초기화
 	GEngine->Init(info);
 
 	// TODO : Scene Load
-	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::EBATTLESCENE);
+	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ELOBBYSCENE);
 }
 
 void GameFrameWork::Update()

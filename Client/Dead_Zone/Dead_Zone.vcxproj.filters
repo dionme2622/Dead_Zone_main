@@ -1,507 +1,169 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{d1168e05-ecb5-46a1-8c4f-3d4e413c5f5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{350e034b-990b-41bd-bb47-1dceb08cadb4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{a972faf2-c276-4524-96ee-8932d4035a92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{b94458af-0345-40f0-afaa-0cfbfbdfb8c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\Input">
-      <UniqueIdentifier>{abebd6c6-1a49-4e81-8e8b-d31068189f21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{f18b7516-e415-47d4-8c60-195cc9595b49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Component">
-      <UniqueIdentifier>{bf8c3c66-1216-495f-8b10-00cb9bdca130}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Resource">
-      <UniqueIdentifier>{f49bb299-2323-4b17-8dce-f8e4eab2e84a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Component\Collider">
-      <UniqueIdentifier>{6c39b961-949e-486d-9ee1-4ef30d2d6f42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Component\Weapon">
-      <UniqueIdentifier>{013a5af6-a1b7-42c2-8fd8-e0b86a5d6734}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utils\Animation">
-      <UniqueIdentifier>{eaa890f0-d7af-4b70-89bc-a9b841cfd308}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Script">
-      <UniqueIdentifier>{18c8d1f5-3cfd-4680-a100-4b9d34b59635}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{faf33331-5871-48df-b2a4-5250d51b51b3}</UniqueIdentifier>
-    </Filter>
+    <FxCompile Include="..\Resources\Shader\animation.fx" />
+    <FxCompile Include="..\Resources\Shader\compute.fx" />
+    <FxCompile Include="..\Resources\Shader\deferred.fx" />
+    <FxCompile Include="..\Resources\Shader\forward.fx" />
+    <FxCompile Include="..\Resources\Shader\lighting.fx" />
+    <FxCompile Include="..\Resources\Shader\math.fx" />
+    <FxCompile Include="..\Resources\Shader\params.fx" />
+    <FxCompile Include="..\Resources\Shader\particle.fx" />
+    <FxCompile Include="..\Resources\Shader\shadow.fx" />
+    <FxCompile Include="..\Resources\Shader\skybox.fx" />
+    <FxCompile Include="..\Resources\Shader\utils.fx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Dead_Zone.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMath.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GameFrameWork.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandQueue.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="InstancingBuffer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="RootSignature.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTargetGroup.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="StructuredBuffer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="SwapChain.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="TableDescriptorHeap.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyInput.h">
-      <Filter>Manager\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInput.h">
-      <Filter>Manager\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Object\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCollider.h">
-      <Filter>Object\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CapsuleCollider.h">
-      <Filter>Object\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshCollider.h">
-      <Filter>Object\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="MonoBehaviour.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStats.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="TwoHandedMeleeWeapon.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="ThrowingWeapon.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="OneHandedMeleeWeapon.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="GunWeapon.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponManager.h">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Transition.h">
-      <Filter>Utils\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationState.h">
-      <Filter>Utils\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatorParameter.h">
-      <Filter>Utils\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatorController.h">
-      <Filter>Utils\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshData.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugRenderer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryLoader.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="InstancingManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraScript.h">
-      <Filter>Object\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerScript.h">
-      <Filter>Object\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="game_header.h">
-    <ClInclude Include="SimpleMath.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkClient.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="EnginePch.h">
-      <Filter>Utils</Filter>
-    <ClInclude Include="Dead_Zone.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="GameFrameWork.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="ZombieScript.h">
-      <Filter>Object\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="TestAnimation.h">
-      <Filter>Object\Script</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="EnginePch.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandQueue.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="InstancingBuffer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="RootSignature.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTargetGroup.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="StructuredBuffer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="SwapChain.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="TableDescriptorHeap.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyInput.cpp">
-      <Filter>Manager\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
-      <Filter>Manager\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Object\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCollider.cpp">
-      <Filter>Object\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>Object\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshCollider.cpp">
-      <Filter>Object\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="MonoBehaviour.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStats.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidBody.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="TwoHandedMeleeWeapon.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="ThrowingWeapon.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="OneHandedMeleeWeapon.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="GunWeapon.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponManager.cpp">
-      <Filter>Object\Component\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Transition.cpp">
-      <Filter>Utils\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationState.cpp">
-      <Filter>Utils\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatorController.cpp">
-      <Filter>Utils\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshData.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugRenderer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="BinaryLoader.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="InstancingManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="LobbyScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraScript.cpp">
-      <Filter>Object\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerScript.cpp">
-      <Filter>Object\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkClient.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="GameFrameWork.cpp" />
+    <ClCompile Include="AnimationState.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="AnimatorController.cpp" />
+    <ClCompile Include="BaseCollider.cpp" />
+    <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="BinaryLoader.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraScript.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="CommandQueue.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Dead_Zone.cpp" />
-    <ClCompile Include="ZombieScript.cpp">
-      <Filter>Object\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="TestAnimation.cpp">
-      <Filter>Object\Script</Filter>
-    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp" />
+    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EnginePch.cpp" />
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="GameFrameWork.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GunWeapon.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InstancingBuffer.cpp" />
+    <ClCompile Include="InstancingManager.cpp" />
+    <ClCompile Include="KeyInput.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LobbyScene.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshCollider.cpp" />
+    <ClCompile Include="MeshData.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="MonoBehaviour.cpp" />
+    <ClCompile Include="MouseInput.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="OneHandedMeleeWeapon.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="PlayerStats.cpp" />
+    <ClCompile Include="RenderTargetGroup.cpp" />
+    <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="RootSignature.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="StructuredBuffer.cpp" />
+    <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="TableDescriptorHeap.cpp" />
+    <ClCompile Include="TestAnimation.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ThrowingWeapon.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="TwoHandedMeleeWeapon.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponManager.cpp" />
+    <ClCompile Include="ZombieScript.cpp" />
+    <ClCompile Include="RoomSelectScene.cpp" />
+    <ClCompile Include="WaitingRoomScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Dead_Zone.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
+    <ClInclude Include="AnimationState.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="AnimatorController.h" />
+    <ClInclude Include="AnimatorParameter.h" />
+    <ClInclude Include="BaseCollider.h" />
+    <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="BinaryLoader.h" />
+    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraScript.h" />
+    <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="CommandQueue.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="Dead_Zone.h" />
+    <ClInclude Include="DebugRenderer.h" />
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="EnginePch.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="GameFrameWork.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="game_header.h" />
+    <ClInclude Include="GunWeapon.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InstancingBuffer.h" />
+    <ClInclude Include="InstancingManager.h" />
+    <ClInclude Include="KeyInput.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LobbyScene.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshCollider.h" />
+    <ClInclude Include="MeshData.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MonoBehaviour.h" />
+    <ClInclude Include="MouseInput.h" />
+    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="OneHandedMeleeWeapon.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="PlayerStats.h" />
+    <ClInclude Include="RenderTargetGroup.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Resources.h" />
+    <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="SimpleMath.h" />
+    <ClInclude Include="StructuredBuffer.h" />
+    <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="TableDescriptorHeap.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestAnimation.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThrowingWeapon.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Transition.h" />
+    <ClInclude Include="TwoHandedMeleeWeapon.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponManager.h" />
+    <ClInclude Include="ZombieScript.h" />
+    <ClInclude Include="RoomSelectScene.h" />
+    <ClInclude Include="WaitingRoomScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="Dead_Zone.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
+    <ResourceCompile Include="Dead_Zone.rc" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\animation.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\compute.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\deferred.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\forward.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\lighting.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\math.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\params.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\particle.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\shadow.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\skybox.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\utils.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
+    <Image Include="Dead_Zone.ico" />
+    <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleMath.inl">
-      <Filter>Utils</Filter>
-    </None>
+    <None Include="SimpleMath.inl" />
   </ItemGroup>
 </Project>

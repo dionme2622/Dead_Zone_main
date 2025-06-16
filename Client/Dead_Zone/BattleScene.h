@@ -12,6 +12,7 @@ public:
 	virtual void LoadScene();
 	virtual void Update();
 
+	virtual void LoadingSceneRender();
 
 
 public:

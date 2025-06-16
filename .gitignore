@@ -29,6 +29,7 @@
 *.exe
 *.out
 *.app
+*.zip
 /Engine/x64
 /Output
 /Client/x64
@@ -41,3 +42,4 @@
 /Client/Dead_Zone/x64
 /Client/Dead_Zone/x64/
 /Client/Dead_Zone/x64/Release/Dead_Zone.tlog
+

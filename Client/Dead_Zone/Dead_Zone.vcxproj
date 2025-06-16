@@ -210,6 +210,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="RoomSelectScene.h" />
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="TwoHandedMeleeWeapon.h" />
+    <ClInclude Include="WaitingRoomScene.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponManager.h" />
     <ClInclude Include="ZombieScript.h" />
@@ -302,6 +304,7 @@
     <ClCompile Include="RenderTargetGroup.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="RoomSelectScene.cpp" />
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -322,6 +325,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Transition.cpp" />
     <ClCompile Include="TwoHandedMeleeWeapon.cpp" />
+    <ClCompile Include="WaitingRoomScene.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponManager.cpp" />
     <ClCompile Include="ZombieScript.cpp" />

@@ -681,6 +681,99 @@ void Resources::CreateDefaultShader()
 		Add<Shader>(L"UI", shader);
 	}
 
+	// Number_UI
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::FORWARD,
+			RASTERIZER_TYPE::CULL_NONE,
+			DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_NO_WRITE,
+		};
+
+		ShaderArg arg =
+		{
+			"VS_Number_UI",
+			"",
+			"",
+			"",
+			"PS_Number_UI"
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"Number_UI", shader);
+	}
+
+	// Button UI
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::FORWARD,
+			RASTERIZER_TYPE::CULL_NONE,
+			DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_NO_WRITE,
+		};
+
+		ShaderArg arg =
+		{
+			"VS_Button_UI",
+			"",
+			"",
+			"",
+			"PS_Button_UI"
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"Button_UI", shader);
+	}
+
+	// BackgroundEmage UI
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::FORWARD,
+			RASTERIZER_TYPE::CULL_NONE,
+			DEPTH_STENCIL_TYPE::LESS,
+		};
+
+		ShaderArg arg =
+		{
+			"VS_Background_UI",
+			"",
+			"",
+			"",
+			"PS_Background_UI"
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"Background_UI", shader);
+	}
+	// 	Transparent UI
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::FORWARD,
+			RASTERIZER_TYPE::CULL_NONE,
+			DEPTH_STENCIL_TYPE::LESS,
+			BLEND_TYPE::ALPHA_BLEND
+
+		};
+
+		ShaderArg arg =
+		{
+			"VS_Transparent_UI",
+			"",
+			"",
+			"",
+			"PS_Transparent_UI"
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"Transparent_UI", shader);
+	}
+
 	// DirLight
 	{
 		ShaderInfo info =
