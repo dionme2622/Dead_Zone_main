@@ -276,7 +276,15 @@ void LobbyScene::UpdateButton()
 				else if (INPUT->GetButtonUp(KEY_TYPE::LEFTCLICK))
 				{
 					_ButtonMaterials[0]->SetInt(1, 1); // Hover state
-					GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ESELECTROOMSCENE);
+
+					// 연결 성공
+					{
+						// 여기 서버 연결 (연결 성공시에만 다음 씬 이동)
+						// _inputId(아이디)
+						GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ESELECTROOMSCENE);
+					}
+					// 연결 실패
+					// return 
 				}
 				else
 					_ButtonMaterials[0]->SetInt(1, 1); // Hover state

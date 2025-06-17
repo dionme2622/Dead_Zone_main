@@ -17,7 +17,7 @@ void GameFrameWork::Init(const WindowInfo& info)
 	GEngine->Init(info);
 
 	// TODO : Scene Load
-	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ELOBBYSCENE);
+	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::EBATTLESCENE);
 }
 
 void GameFrameWork::Update()

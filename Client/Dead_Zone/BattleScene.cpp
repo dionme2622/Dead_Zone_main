@@ -64,6 +64,9 @@ void BattleScene::LoadScene()
 
 	LoadingSceneRender();
 	
+
+	// 여기서 업데이트가 실행되어야 함
+
 #pragma region LayerMask
 	SetLayerName(0, L"Battle");
 	SetLayerName(1, L"UI");
@@ -602,6 +605,8 @@ void BattleScene::LoadScene()
 //		if (auto box = obj->GetBoxCollier())
 //			box->UpdateWorldBounds(obj->GetTransform()->GetLocalMatrix());
 //	}
+
+
 }
 
 void BattleScene::Update()
