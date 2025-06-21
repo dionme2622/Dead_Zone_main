@@ -139,9 +139,12 @@ void PlayerScript::UpdateKeyInput()
 		// Shoot 애니메이션 트리거
 		if (GetWeaponManager()) {
 			GetAnimator()->SetTrigger("Shoot");
-			GetWeaponManager()->GetCurrentWeapon()[0]->GetWeapon()->SetBulletPosition();
-			GetWeaponManager()->GetCurrentWeapon()[0]->GetWeapon()->SetBulletDirection();
-			GetWeaponManager()->GetCurrentWeapon()[0]->GetWeapon()->Attack();
+			auto weapon = GetWeaponManager()->GetCurrentWeapon()[0]->GetWeapon();
+			weapon->SetBulletPosition();
+			weapon->SetBulletDirection();
+			weapon->Attack();
+			auto battleScene = static_pointer_cast<BattleScene>(GET_SINGLE(SceneManager)->GetActiveScene());
+			battleScene->ShowMuzzleEffect(weapon->GetTransform()->GetLocalPosition());
 			_isShooting = true;
 		}
 	}

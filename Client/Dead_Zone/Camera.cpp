@@ -159,6 +159,11 @@ void Camera::Render_Forward()
 	S_MatView = _matView;
 	S_MatProjection = _matProjection;
 
+	if (GetProjectionType() == PROJECTION_TYPE::PERSPECTIVE) {
+		S_MatView = S_MainMatView;
+		S_MatProjection = S_MainMatProjection;
+	}
+
 #ifdef _INSTANCING_MODE
 	GET_SINGLE(InstancingManager)->Render(_vecForward);
 

@@ -928,6 +928,32 @@ void Resources::CreateDefaultShader()
 		Add<Shader>(L"ComputeParticle", shader);
 	}
 
+	// Muzzle Billboard
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::FORWARD,
+			RASTERIZER_TYPE::CULL_NONE,
+			DEPTH_STENCIL_TYPE::LESS_NO_WRITE,
+			BLEND_TYPE::ALPHA_BLEND,
+			D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+		};
+
+		ShaderArg arg =
+		{
+			"VS_Main",
+			"",
+			"",
+			"",
+			"PS_Main"
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\billboard.fx", info, arg);
+		Add<Shader>(L"billboard", shader);
+	}
+
+
 	// Collider
 	{
 		ShaderInfo info =

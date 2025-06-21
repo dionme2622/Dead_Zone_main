@@ -124,7 +124,7 @@ float4 PS_UI(VS_TEX_OUT input) : SV_Target
     if (g_tex_on_0)
         color = g_tex_0.Sample(g_sam_0, input.uv);
         
-    if (color.a <= 0.01f)
+    if (color.a <= 0.5f)
         discard;
 
     

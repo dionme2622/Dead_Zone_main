@@ -12,6 +12,7 @@
     <FxCompile Include="..\Resources\Shader\shadow.fx" />
     <FxCompile Include="..\Resources\Shader\skybox.fx" />
     <FxCompile Include="..\Resources\Shader\utils.fx" />
+    <FxCompile Include="..\Resources\Shader\billboard.fx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationState.cpp" />

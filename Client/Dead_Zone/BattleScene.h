@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "PlayerStats.h"
 
+#define POOL_SIZE 10
+
 
 class BattleScene : public Scene
 {
@@ -13,6 +15,10 @@ public:
 	virtual void Update();
 
 	virtual void LoadingSceneRender();
+
+	virtual void LoadUI();
+
+	void ShowMuzzleEffect(const Vec3& pos);
 
 
 public:
@@ -33,6 +39,9 @@ private:
 	shared_ptr<GameObject>							_uiCamera;
 
 	vector<shared_ptr<GameObject>>					_player;
+	vector<shared_ptr<GameObject>>					_heartPoint;
+	vector<shared_ptr<GameObject>>					_immunityPoint;
+
 	shared_ptr<GameObject>							_mainLight;
 	vector<shared_ptr<GameObject>>					_spotLights;
 	shared_ptr<GameObject>							_sunObject;
@@ -49,5 +58,7 @@ private:
 
 
 	int _myID;
+
+	vector<shared_ptr<GameObject>>					 _muzzlePool;
 };
 

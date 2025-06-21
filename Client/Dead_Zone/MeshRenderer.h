@@ -28,6 +28,7 @@ public:
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
 	void SetMaterial(shared_ptr<Material> material, uint32 idx = 0);
 	void SetRender(bool isRender) { _isRender = isRender; }
+	bool IsRender() { return _isRender; }
 
 	void Render();
 	void Render(shared_ptr<class InstancingBuffer>& buffer);
