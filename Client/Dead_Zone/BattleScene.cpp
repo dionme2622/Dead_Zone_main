@@ -828,6 +828,89 @@ void BattleScene::LoadUI()
 		AddGameObject(heart);
 	}
 #pragma endregion
+
+#pragma region Coin
+	{
+		shared_ptr<GameObject> heart = make_shared<GameObject>();
+		heart->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+		heart->AddComponent(make_shared<Transform>());
+		heart->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 1.f));
+		heart->GetTransform()->SetLocalPosition(Vec3(700, 450, 1.f));
+		heart->SetCheckFrustum(false);
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"UI");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Coin", L"..\\Resources\\Texture\\Coin.png");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		heart->SetCheckFrustum(false);
+		heart->AddComponent(meshRenderer);
+		AddGameObject(heart);
+	}
+#pragma endregion
+
+#pragma region Weapon Box
+	for (int i = 0; i < 3; ++i)
+	{
+		shared_ptr<GameObject> heart = make_shared<GameObject>();
+		heart->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+		heart->AddComponent(make_shared<Transform>());
+		heart->GetTransform()->SetLocalScale(Vec3(150.f, 150.f, 1.f));
+		heart->GetTransform()->SetLocalPosition(Vec3(800, 250 - (i * 250), 1.f));
+		heart->SetCheckFrustum(false);
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Transparent_UI");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"WeaponBox", L"..\\Resources\\Texture\\WeaponBox.png");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		heart->SetCheckFrustum(false);
+		heart->AddComponent(meshRenderer);
+		AddGameObject(heart);
+	}
+#pragma endregion
+
+#pragma region Kiosk UI
+	for (int i = 0; i < 3; ++i)
+	{
+		shared_ptr<GameObject> heart = make_shared<GameObject>();
+		heart->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+		heart->AddComponent(make_shared<Transform>());
+		heart->GetTransform()->SetLocalScale(Vec3(1000.f, 1000.f, 1.f));
+		heart->GetTransform()->SetLocalPosition(Vec3(0, 0, 1.f));
+		heart->SetCheckFrustum(false);
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"UI");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"KioskUI", L"..\\Resources\\Texture\\Kiosk_UI.png");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		heart->SetCheckFrustum(false);
+		heart->AddComponent(meshRenderer);
+		AddGameObject(heart);
+	}
+#pragma endregion
 }
 
 void BattleScene::UpdateSunOrbit()
