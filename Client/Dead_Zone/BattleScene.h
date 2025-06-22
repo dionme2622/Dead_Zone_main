@@ -34,7 +34,6 @@ public:
 public:
 
 private:
-	shared_ptr<GameObject>							player1;
 	shared_ptr<GameObject>							_playerCamera;
 	shared_ptr<GameObject>							_uiCamera;
 
