@@ -82,6 +82,7 @@
     <ClCompile Include="ZombieScript.cpp" />
     <ClCompile Include="RoomSelectScene.cpp" />
     <ClCompile Include="WaitingRoomScene.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationState.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="ZombieScript.h" />
     <ClInclude Include="RoomSelectScene.h" />
     <ClInclude Include="WaitingRoomScene.h" />
+    <ClInclude Include="ResultScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dead_Zone.rc" />

@@ -14,17 +14,18 @@ public:
 	virtual void LoadScene();
 	virtual void Update();
 
-	virtual void LoadingSceneRender();
+	void LoadingSceneRender();
 
-	virtual void LoadUI();
+	void LoadUI();
 
 	void ShowMuzzleEffect(const Vec3& pos);
 
-
 public:
 	void UpdateSunOrbit();
+
 	void PlayerChaseShadowCamera();
 
+	void DecreaseLightIntensity();
 
 	static bool isPlayerGrounded;
 	vector<shared_ptr<GameObject>> GetPlayers() { return _player; };
@@ -59,5 +60,12 @@ private:
 	int _myID;
 
 	vector<shared_ptr<GameObject>>					 _muzzlePool;
+
+
+
+	// 조명 밝기 관련
+	float _lightIntensity = 1.0f;
+	float _lightDecreaseSpeed = 1.0f / 60.0f; 
+	float _lightDimmingElapsed = 0.0f; 
 };
 

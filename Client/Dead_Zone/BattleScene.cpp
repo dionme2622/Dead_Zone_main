@@ -604,12 +604,11 @@ void BattleScene::LoadScene()
 
 void BattleScene::Update()
 {
-	Scene::Update();
 	GET_SINGLE(PhysicsSystem)->Update(DELTA_TIME);
 	PlayerChaseShadowCamera();
 	//UpdateSunOrbit();
 
-
+	DecreaseLightIntensity();
 
 
 
@@ -630,6 +629,9 @@ void BattleScene::Update()
 			_heartPoint.pop_back();
 		}
 	}
+
+
+	Scene::Update();
 
 }
 
@@ -885,31 +887,30 @@ void BattleScene::LoadUI()
 #pragma endregion
 
 #pragma region Kiosk UI
-	for (int i = 0; i < 3; ++i)
-	{
-		shared_ptr<GameObject> heart = make_shared<GameObject>();
-		heart->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
-		heart->AddComponent(make_shared<Transform>());
-		heart->GetTransform()->SetLocalScale(Vec3(1000.f, 1000.f, 1.f));
-		heart->GetTransform()->SetLocalPosition(Vec3(0, 0, 1.f));
-		heart->SetCheckFrustum(false);
-		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-		{
-			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
-			meshRenderer->SetMesh(mesh);
-		}
-		{
-			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"UI");
-			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"KioskUI", L"..\\Resources\\Texture\\Kiosk_UI.png");
-			shared_ptr<Material> material = make_shared<Material>();
-			material->SetShader(shader);
-			material->SetTexture(0, texture);
-			meshRenderer->SetMaterial(material);
-		}
-		heart->SetCheckFrustum(false);
-		heart->AddComponent(meshRenderer);
-		AddGameObject(heart);
-	}
+	//{
+	//	shared_ptr<GameObject> heart = make_shared<GameObject>();
+	//	heart->SetLayerIndex(LayerNameToIndex(L"UI")); // UI
+	//	heart->AddComponent(make_shared<Transform>());
+	//	heart->GetTransform()->SetLocalScale(Vec3(1000.f, 1000.f, 1.f));
+	//	heart->GetTransform()->SetLocalPosition(Vec3(0, 0, 1.f));
+	//	heart->SetCheckFrustum(false);
+	//	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+	//	{
+	//		shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+	//		meshRenderer->SetMesh(mesh);
+	//	}
+	//	{
+	//		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"UI");
+	//		shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"KioskUI", L"..\\Resources\\Texture\\Kiosk_UI.png");
+	//		shared_ptr<Material> material = make_shared<Material>();
+	//		material->SetShader(shader);
+	//		material->SetTexture(0, texture);
+	//		meshRenderer->SetMaterial(material);
+	//	}
+	//	heart->SetCheckFrustum(false);
+	//	heart->AddComponent(meshRenderer);
+	//	AddGameObject(heart);
+	//}
 #pragma endregion
 }
 
@@ -957,6 +958,21 @@ void BattleScene::PlayerChaseShadowCamera()
 	_mainLight->GetTransform()->SetLocalPosition(lightPos);
 
 	_mainLight->GetTransform()->LightLookAt(lightDir);
+}
+
+void BattleScene::DecreaseLightIntensity()
+{
+	_lightDimmingElapsed += DELTA_TIME;
+															// 요 숫자 조절해서 보간 시간 설정
+	_lightIntensity = max(1.0f - (_lightDimmingElapsed / 60), 0.2f);
+
+	Vec3 baseDiffuse(1.f, 1.f, 1.f);
+	Vec3 baseAmbient(0.2f, 0.2f, 0.2f);
+	Vec3 baseSpecular(0.1f, 0.1f, 0.1f);
+
+	_mainLight->GetLight()->SetDiffuse(baseDiffuse * _lightIntensity);
+	_mainLight->GetLight()->SetAmbient(baseAmbient * _lightIntensity);
+	_mainLight->GetLight()->SetSpecular(baseSpecular * _lightIntensity);
 }
 
 void BattleScene::LoadingSceneRender()

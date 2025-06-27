@@ -50,6 +50,10 @@ void SceneManager::LoadScene(SCENETYPE sceneName)
 		_battleScene = make_shared<BattleScene>();
 		_activeScene = static_pointer_cast<Scene>(_battleScene);
 		break;
+	case SCENETYPE::ERESULTSCENE:
+		_resultScene = make_shared<ResultScene>();
+		_activeScene = static_pointer_cast<Scene>(_resultScene);
+		break;
 	}
 
 	_activeScene->LoadScene();

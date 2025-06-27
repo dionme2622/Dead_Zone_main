@@ -3,10 +3,12 @@
 #include "LobbyScene.h"
 #include "RoomSelectScene.h"
 #include "BattleScene.h"
+#include "ResultScene.h"
 
 class Scene;
 class LobbyScene;
 class BattleScene;
+class ResultScene;
 class Player;
 
 //enum
@@ -19,6 +21,7 @@ enum class SCENETYPE : uint8
 	ELOBBYSCENE,
 	ESELECTROOMSCENE,
 	EBATTLESCENE,
+	ERESULTSCENE,
 
 	END
 };
@@ -45,14 +48,13 @@ public:
 	shared_ptr<Scene> GetActiveScene() { return _activeScene; }
 	uint8 GetSceneName() { return static_cast<uint8>(_sceneName); }
 
-	
-	/*shared_ptr<Scene> LoadLobbyScene();
-	shared_ptr<Scene> LoadBattleScene();*/
+
 
 private:
 	shared_ptr<LobbyScene> _lobbyScene = make_shared<LobbyScene>();
 	shared_ptr<RoomSelectScene> _roomSelectScene = make_shared<RoomSelectScene>();
 	shared_ptr<BattleScene> _battleScene = make_shared<BattleScene>();
+	shared_ptr<ResultScene> _resultScene = make_shared<ResultScene>();
 
 private:
 	shared_ptr<Scene>			_activeScene;

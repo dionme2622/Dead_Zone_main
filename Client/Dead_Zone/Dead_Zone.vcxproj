@@ -209,6 +209,7 @@
     <ClInclude Include="RenderTargetGroup.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="RoomSelectScene.h" />
     <ClInclude Include="RootSignature.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="PlayerStats.cpp" />
     <ClCompile Include="RenderTargetGroup.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="RoomSelectScene.cpp" />
     <ClCompile Include="RootSignature.cpp" />

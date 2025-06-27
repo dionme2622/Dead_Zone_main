@@ -31,7 +31,7 @@ struct PS_OUT
 // g_mat_0 : ShadowCamera VP
 // Mesh : Rectangle
 
-static const float SHADOW_MAP_SIZE = 4096.0f * 2;
+static const float SHADOW_MAP_SIZE = 4096.0f * 4;
 static const float SHADOW_MAP_DX = 1.0 / SHADOW_MAP_SIZE;
 
 
