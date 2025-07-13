@@ -6,18 +6,18 @@
 
 void GameFrameWork::Init(const WindowInfo& info)
 {
-	/*if (!ConnectAndLogin()) {
-		std::cout << "서버 연결 또는 로그인 실패\n";
-		return;
-	}
-	std::thread(recv_thread, sock).detach();*/
+	
 
 
 	// DirectX12 장치초기화
 	GEngine->Init(info);
 
 	// TODO : Scene Load
+<<<<<<< Updated upstream
 	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ERESULTSCENE);
+=======
+	GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ELOBBYSCENE);
+>>>>>>> Stashed changes
 }
 
 void GameFrameWork::Update()

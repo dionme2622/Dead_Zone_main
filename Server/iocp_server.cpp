@@ -137,6 +137,9 @@ public:
 		case CToS_PLAYER_LOGIN :
 		{
 			ctos_packet_login* packet = reinterpret_cast<ctos_packet_login*>(p);
+
+			
+
 			_name = packet->name;
 			_x = 0.0f;
 			_y = 0.0f;
@@ -290,6 +293,8 @@ int main()
 			CreateIoCompletionPort(reinterpret_cast<HANDLE>(eo->_accept_socket),
 				g_hIOCP, new_id, 0);
 			g_users.try_emplace(new_id, new_id, eo->_accept_socket);
+
+			std::cout << "New client ID: " << new_id << std::endl;
 
 			new_id++;
 			do_accept(s_socket, &accept_over);

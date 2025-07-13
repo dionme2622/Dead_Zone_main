@@ -29,7 +29,7 @@ bool ConnectAndLogin()
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(GAME_PORT);
 
-    inet_pton(AF_INET, "192.168.48.140", &serverAddr.sin_addr);
+    inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
 
     if (connect(sock, reinterpret_cast<SOCKADDR*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
         std::cout << "서버 연결 실패\n";
@@ -37,7 +37,7 @@ bool ConnectAndLogin()
         return false;
     }
 
-    //std::cout << "Connected to the server.\n";
+    std::cout << "Connected to the server.\n";
 
     ctos_packet_login login{};
     login.size = sizeof(login);

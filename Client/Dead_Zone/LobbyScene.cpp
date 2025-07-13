@@ -277,14 +277,16 @@ void LobbyScene::UpdateButton()
 				{
 					_ButtonMaterials[0]->SetInt(1, 1); // Hover state
 
-					// 연결 성공
 					{
-						// 여기 서버 연결 (연결 성공시에만 다음 씬 이동)
-						// _inputId(아이디)
+						// 연결
+						if (!ConnectAndLogin()) {
+							std::cout << "서버 연결 또는 로그인 실패\n";
+							exit(1);
+						}
+						std::thread(recv_thread, sock).detach();
+						cout << _inputId << endl;
 						GET_SINGLE(SceneManager)->LoadScene(SCENETYPE::ESELECTROOMSCENE);
 					}
-					// 연결 실패
-					// return 
 				}
 				else
 					_ButtonMaterials[0]->SetInt(1, 1); // Hover state
@@ -343,7 +345,7 @@ void LobbyScene::HandleIdInput()
 			_inputId.pop_back();
 	}
 
-	cout << _inputId << endl;
+	
 }
 
 
